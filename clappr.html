@@ -3,6 +3,7 @@
     <title>fulvo</title>
     <script src="//cdn.jsdelivr.net/npm/@clappr/player@0.4.0/dist/clappr.min.js" type="text/javascript"></script>
     <script src="//cdn.jsdelivr.net/npm/mux.js@5.6.7/dist/mux.min.js" type="text/javascript"></script>
+    <script src='//cdn.jsdelivr.net/npm/level-selector@latest/dist/level-selector.min.js'></script>
     <script src="//cdn.jsdelivr.net/npm/level-selector@latest/dist/level-selector.min.js" type="text/javascript"></script>
     <script src="//cdn.jsdelivr.net/npm/clappr-chromecast-plugin@latest/dist/clappr-chromecast-plugin.min.js" type="text/javascript"></script>
     <script src="//cdn.jsdelivr.net/npm/clappr-pip@latest/dist/clappr-pip.min.js" type="text/javascript"></script>
@@ -39,7 +40,7 @@
     <body><div id="player"></div>
     <script type="text/javascript">
     var scriptElement = document.createElement("script");
-    var scriptCode = document.createTextNode("var player = new Clappr.Player({source:'" + atob(getURL) + "',autoPlay: true,muted: false, height: '100%',width: '100%',plugins: [DashShakaPlayback, Clappr.MediaControl],events: {onReady: function() {var plugin = this.getPlugin('click_to_pause'); plugin && plugin.disable();},},shakaConfiguration: {drm: { clearKeys: "+ getKEYS + "},preferredAudioLanguage: 'es',},shakaOnBeforeLoad: function (shaka_player) {},parentId: '#player'});");
+    var scriptCode = document.createTextNode("var player = new Clappr.Player({source:'" + atob(getURL) + "',autoPlay: true,muted: false, height: '100%',width: '100%',plugins: [LevelSelector, DashShakaPlayback, Clappr.MediaControl],events: {onReady: function() {var plugin = this.getPlugin('click_to_pause'); plugin && plugin.disable();},},shakaConfiguration: {drm: { clearKeys: "+ getKEYS + "},preferredAudioLanguage: 'es',},shakaOnBeforeLoad: function (shaka_player) {},parentId: '#player'});");
     scriptElement.appendChild(scriptCode); 
     
     document.body.appendChild(scriptElement);
