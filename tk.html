@@ -16,45 +16,51 @@
 <body>
 <div id="player"></div>
 <script type="text/javascript">
-  $.ajax({
-  url: 'https://api.directvgo.com/entitlement/v3/playback/token/authorizer',
-  type: 'POST',
-  headers: headers, // Deja solo los encabezados necesarios aquí
-  contentType: 'application/json',
-  data: JSON.stringify(json_data),
-  success: function(response) {
-    var token = response.token;
+  // Variable para almacenar el token actualizado
+  var token = '';
 
-    var playerInstance = jwplayer("player");
-    playerInstance.setup({
-      playlist: [{
-        "title": "",
-        "description": "",
-        "image": "#",
-        "sources": [
-          {
-            "default": false,
-            "type": "dash",
-            "file": mpd + '?token=' + token,
-            "drm": {
-              "clearkey": {
-                "keyId": "c4697bf458da52f8b96b36cce761d571",
-                "key": "a4dee77615279c858b19e5bb69ab6755"
-              }
-            },
-            "label": "0"
-          }
-        ]
-      }],
-      width: "100%",
-      height: "100%",
-      aspectratio: "16:9",
-      autostart: true,
-      cast: {},
-      sharing: {}
+  // Función para actualizar el token periódicamente
+  function updateToken() {
+    // Realiza la solicitud para obtener el nuevo token y actualiza la variable 'token'
+    $.getJSON('https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json', function(data) {
+      token = data.token;
+
+      // Llama a la función para actualizar el token nuevamente después de un intervalo de tiempo
+      setTimeout(updateToken, 600000); // Cada 10 minutos (ajusta el tiempo según tus necesidades)
     });
   }
-});
+
+  // Inicia el proceso de actualización del token
+  updateToken();
+
+  // Configuración del reproductor JW Player
+  jwplayer("player").setup({
+    playlist: [{
+      "title": "Video Title",
+      "description": "Video Description",
+      "image": "https://example.com/video-thumbnail.jpg",
+      "sources": [
+        {
+          "default": false,
+          "type": "dash",
+          "file": "https://original-segment-url.com/segment.mpd" + '?token=' + token,
+          "drm": {
+            "clearkey": {
+              "keyId": "c4697bf458da52f8b96b36cce761d571",
+              "key": "a4dee77615279c858b19e5bb69ab6755"
+            }
+          },
+          "label": "0"
+        }
+      ]
+    }],
+    width: "100%",
+    height: "100%",
+    aspectratio: "16:9",
+    autostart: true,
+    cast: {},
+    sharing: {}
+  });
 </script>
 </body>
 </html>
