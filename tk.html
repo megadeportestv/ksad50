@@ -18,7 +18,7 @@
 <script type="text/javascript">
   $.getJSON('https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json', function(data) {
     var mpd = data.mpd;
-    var playerInstance = jwplayer("player");
+    var playerInstance=jwplayer("player");
     playerInstance.setup({
       playlist: [{
         "title": "",
@@ -35,7 +35,30 @@
                 "key": "a4dee77615279c858b19e5bb69ab6755"
               }
             },
-            "label": "0"
+            "label": "0",
+            "cookies": [
+              {
+                "name": "hdntl",
+                "value": "exp=1693062976~acl=%2f*~id=d5919840-20de-4a03-aa19-be094881dbff~data=hdntl~hmac=db4260d7b9b13770a8df5ecf1bd51614ea2a56a20b2a82858aa2e71e5ddad0b7"
+              }
+            ],
+            "headers": {
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+              "Accept-Language": "es-ES,es;q=0.6",
+              "Cache-Control": "max-age=0",
+              "Connection": "keep-alive",
+              "If-None-Match": "\"bpk-B1EA56FC\"",
+              "Sec-Fetch-Dest": "document",
+              "Sec-Fetch-Mode": "navigate",
+              "Sec-Fetch-Site": "none",
+              "Sec-Fetch-User": "?1",
+              "Sec-GPC": "1",
+              "Upgrade-Insecure-Requests": "1",
+              "sec-ch-ua": "\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Brave\";v=\"116\"",
+              "sec-ch-ua-mobile": "?0",
+              "sec-ch-ua-platform": "\"Windows\"",
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+            }
           }
         ]
       }],
@@ -44,13 +67,7 @@
       aspectratio: "16:9",
       autostart: true,
       cast: {},
-      sharing: {},
-      // Agrega el encabezado "Referer", "Origin" y "User-Agent"
-      requestHeaders: {
-        Referer: "https://www.directvgo.com/player/live/CH0100000000040",
-        Origin: "https://www.directvgo.com",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
-      }
+      sharing: {}
     });
   });
 </script>
