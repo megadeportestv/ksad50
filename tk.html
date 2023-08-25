@@ -16,82 +16,45 @@
 <body>
 <div id="player"></div>
 <script type="text/javascript">
-  $(document).ready(function() {
-    $.getJSON('https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json', function(data) {
-      var mpd = data.mpd;
+  $.ajax({
+  url: 'https://api.directvgo.com/entitlement/v3/playback/token/authorizer',
+  type: 'POST',
+  headers: headers, // Deja solo los encabezados necesarios aquí
+  contentType: 'application/json',
+  data: JSON.stringify(json_data),
+  success: function(response) {
+    var token = response.token;
 
-      // Obtener el token de autorización
-      var headers = {
-        'authority': 'api.directvgo.com',
-        'accept': 'application/json, text/plain, */*',
-        'accept-language': 'es-ES,es;q=0.8',
-        // Agrega aquí tu token de autorización obtenido previamente
-        'authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJraWQiOiJ3VTNpZklJYUxPVUFSZVJCL0ZHNmVNMVAxUU09IiwiYWxnIjoiUlMyNTYifQ.eyJhdF9oYXNoIjoidmVJV0hUbnpLZElqT1pBRHpFZTktQSIsInN1YiI6Im51ZXZhZmxvdzMzQGdtYWlsLmNvbSIsImJ1c2luZXNzVW5pdCI6IlNTTEEtRFRIIiwicmVnaW9ucyI6WyIyZTE2NzIzNy1jN2JiLTQyM2ItYjYwNi1jMzExMTVhZGIxZGEiLCJmOTE3Y2ZmNi0wMjVhLTQ5MTctODRkNi1mYjY4NjY5N2Q5M2MiXSwiYXVkaXRUcmFja2luZ0lkIjoiZjkwMjhkZTYtZGYwYy00YmNmLTgzNTMtNDYxZGM2MTdiZWZkLTI2MzA0MjcyIiwiaXNvMkNvZGUiOiJBUiIsImlzcyI6Imh0dHBzOi8vcHJvZHJvY2suZGlyZWN0dmdvLmNvbTo0NDMvb3BlbmFtL29hdXRoMi9yZWFsbXMvcm9vdC9yZWFsbXMvc3NsYSIsInRva2VuTmFtZSI6ImlkX3Rva2VuIiwiZGV2aWNlSWQiOiJPVU9KNHluNHpoRXhrZGg3bVZOUHVYcmJXSmVWQVd3aUQ2RFAxMHFsTjJFIiwiY3VzdG9tZXJTdGF0dXMiOiJBY3RpdmUiLCJhenAiOiJkdHZnbyIsImZhbWlseU5hbWUiOiJTWUxWRVNURVIiLCJhdXRoX3RpbWUiOjE2OTI5NzQ5NDIsImN1c3RvbWVySWQiOiIxOTk2NDUiLCJleHAiOjE2OTMxNDA1NDQsImlhdCI6MTY5Mjk3NDk0NCwiY3VzdG9tZXJTdGF0dXNNZXNzYWdlIjoiMTAwMSIsImlic0FjY291bnRTdGF0dXMiOiJBQ1RJVkUiLCJnaXZlbk5hbWUiOiJOSUNPTEFTIFJPQkVSVE8iLCJzZXJ2aWNlUHJvdmlkZXJBY2NvdW50SWQiOiJkNTkxOTg0MC0yMGRlLTRhMDMtYWExOS1iZTA5NDg4MWRiZmYiLCJ2cmlvRGV2aWNlSWQiOiIzMGUxMGM2ZC1mNjM4LTRiYWMtYjIyOS0wNDBjM2U2MWI2MzUiLCJhdWQiOiJkdHZnbyIsImNoYW5uZWxzIjpbIkNIMDEwMDAwMDAwMDE1MSIsIkNIMDEwMDAwMDAwMDA3MSIsIkNIMDEwMDAwMDAwMDA3NCIsIkNIMDEwMDAwMDAwMDAxNiIsIkNIMDEwMDAwMDAwMDAzNiIsIkNIMDEwMDAwMDAwMDA5OCIsIkNIMDEwMDAwMDAwMDA4OSIsIkNIMDEwMDAwMDAwMDAxNSIsIkNIMDEwMDAwMDAwMDE2MiIsIkNIMDEwMDAwMDAwMDAyMCIsIkNIMDEwMDAwMDAwMDA1MSIsIkNIMDEwMDAwMDAwMDAzMCIsIkNIMDEwMDAwMDAwMDAxOCIsIkNIMDEwMDAwMDAwMDAzMSIsIkNIMDEwMDAwMDAwMDA3MCIsIkNIMDEwMDAwMDAwMDA0NiIsIkNIMDEwMDAwMDAwMDAyNiIsIkNIMDEwMDAwMDAwMDEwMiIsIkNIMDEwMDAwMDAwMDA0MCIsIkNIMDEwMDAwMDAwMDE4MiIsIkNIMDEwMDAwMDAwMDA5MyIsIkNIMDEwMDAwMDAwMDA2NCIsIkNIMDEwMDAwMDAwMDAzNyIsIkNIMDEwMDAwMDAwMDEzMyIsIkNIMDEwMDAwMDAwMDE0MiIsIkNIMDEwMDAwMDAwMDA1MCIsIkNIMDEwMDAwMDAwMDA5MiIsIkNIMDEwMDAwMDAwMDAyMSIsIkNIMDEwMDAwMDAwMDExNiIsIkNIMDEwMDAwMDAwMDIzOSIsIkNIMDEwMDAwMDAwMDExMSIsIkNIMDEwMDAwMDAwMDEzOSIsIkNIMDEwMDAwMDAwMDEwNyIsIkNIMDEwMDAwMDAwMDA0OCIsIkNIMDEwMDAwMDAwMDE3NyIsIkNIMDEwMDAwMDAwMDEzMiIsIkNIMDEwMDAwMDAwMDAxMCIsIkNIMDEwMDAwMDAwMDEwNiIsIkNIMDEwMDAwMDAwMDE4NCIsIkNIMDEwMDAwMDAwMDE4NiIsIkNIMDEwMDAwMDAwMDIwNyIsIkNIMDEwMDAwMDAwMDA0NCIsIkNIMDEwMDAwMDAwMDMwMiIsIkNIMDEwMDAwMDAwMDA1MiIsIkNIMDEwMDAwMDAwMDE0OCIsIkNIMDEwMDAwMDAwMDE1MiIsIkNIMDEwMDAwMDAwMDIyNyIsIkNIMDEwMDAwMDAwMDI0NiIsIkNIMDEwMDAwMDAwMDE0NiIsIkNIMDEwMDAwMDAwMDE0MSIsIkNIMDEwMDAwMDAwMDIxMSIsIkNIMDEwMDAwMDAwMDIyOSIsIkNIMDEwMDAwMDAwMDIwMiIsIkNIMDEwMDAwMDAwMDIxMCIsIkNIMDEwMDAwMDAwMDE4MSIsIkNIMDEwMDAwMDAwMDEzNCIsIkNIMDEwMDAwMDAwMDIzOCIsIkNIMDEwMDAwMDAwMDI0NyIsIkNIMDEwMDAwMDAwMDIwOSIsIkNIMDEwMDAwMDAwMDA4MCIsIkNIMDEwMDAwMDAwMDIzMCIsIkNIMDEwMDAwMDAwMDIwOCIsIkNIMDEwMDAwMDAwMDIyMiIsIkNIMDEwMDAwMDAwMDEyOCIsIkNIMDEwMDAwMDAwMDI0OSIsIkNIMDEwMDAwMDAwMDIxNSIsIkNIMDEwMDAwMDAwMDE1NSIsIkNIMDEwMDAwMDAwMDE2MyIsIkNIMDEwMDAwMDAwMDIxNCIsIkNIMDEwMDAwMDAwMDIyNSIsIkNIMDEwMDAwMDAwMDI1OSIsIkNIMDEwMDAwMDAwMDIzNiIsIkNIMDEwMDAwMDAwMDI5NSIsIkNIMDEwMDAwMDAwMDI5MyIsIkNIMDEwMDAwMDAwMDI4NiIsIkNIMDEwMDAwMDAwMDI5MiIsIkNIMDEwMDAwMDAwMDIwNSIsIkNIMDEwMDAwMDAwMDI4MSIsIkNIMDEwMDAwMDAwMDEzNSIsIkNIMDEwMDAwMDAwMDMxMiIsIkNIMDEwMDAwMDAwMDMxMyIsIkNIMDEwMDAwMDAwMDMxNSIsIkNIMDEwMDAwMDAwMDMxNyIsIkNIMDEwMDAwMDAwMDMzMCIsIkNIMDEwMDAwMDAwMDMzMSIsIkNIMDEwMDAwMDAwMDMzNCIsIkNIMDEwMDAwMDAwMDMzNyJdLCJ2cmlvQ3VzdG9tZXJJZCI6ImQ1OTE5ODQwLTIwZGUtNGEwMy1hYTE5LWJlMDk0ODgxZGJmZiIsIm5hbWUiOiJOSUNPTEFTIFJPQkVSVE8gU1lMVkVTVEVSIiwicmVhbG0iOiIvc3NsYSIsImNzbSI6IjIiLCJ0b2tlblR5cGUiOiJKV1RUb2tlbiJ9.xmz6EPTwmJnT4hcL9rMoznzZf5f4UGE2HkTrFFlIvfxd0hO1ZYcaqUqfKZnrc7Qh8j2OKWWwZXA4cT7puEvHYUO6LhgKIt1cyEA9YxFzuTP5YZiNS9xemxI2B0shQs6VfgLw3RD28sVsV1ftHI6paEf3H6Ht8Q-hcJjgAONXsbrz_oofBtSwxYMhNTlC84oCmnEtB_SovrN6NW42XMZgEong5wXyZAUi8Tl1pDYQZp5qVbGVyIC8Q5mwZxsIyYllDaWuyprZ18b-mAuxQmQEfvNzTA_jvSnxp6NyoISHMpP2VRfAM_Nsee5xfu0gAC3t61Dznwre3T-KQ4zEEjaO-w',
-        'content-type': 'application/json',
-    'origin': 'https://www.directvgo.com',
-    'referer': 'https://www.directvgo.com/',
-    'sec-ch-ua': '"Chromium";v="116", "Not)A;Brand";v="24", "Brave";v="116"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'empty',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-site': 'same-site',
-    'sec-gpc': '1',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36',
-    'x-client-id': 'web',
-    'x-client-version': '3.13.0',
-    'x-environment': 'prd',
-    'x-profile-token': 'eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0.Ec4YIcGkK5OHcMbV9IafcI17NPiA85LfDHVgIZ0Ixoee5K3IguFEBlrjMzO93cjQm2GhMp100RBT3AxD7Wsa25VZtiAtu4ybWaTjWkQce8f_vDB0kx6Xf6AijpJ-BrPTVHMlnGTKl6_krIKGspTI4hdjmlByeK2BpFcKwuwjH3iss9VWk4tRYEKYj0bljTr1NaLi-NvbUczxalX05lov7WYj0GSIfqhJtgYPdVw9dYIhWPV9Dq_fIJwtCXq3wZ2m6sR99qsVkXWSg0d-OR8GS-YcMWhAAXmyftryDU7jTR_muGlhtNTb4pBVuMNq3TOTTBkTll4mr9xn_YtW_EqBXA.2h6e271jPBHjRBru.pAyUvgGGUetLbHiWkQf5Fuuj0Aic2rJ4Quus3o6YZY0MwxCToZtyp80ePNM06eMpFCXE1uvCVka6pLqYzWHUxd9cNi6j6q9MVe7Oco3RjkYdjFzusaFjtqmlrATgcyupHEVXj5hebDdhFsj15BRJbsCHEwKR1Q6p5_0gT-z4NqENSthCGbgx6UUJ6fpiH1SGiBtlh9_kFFZkxYoW8RnahRycjjoZgeUGexT6uTDGARb7bBRyMiC-FIX99YYq1pmmTbZTnilTnXJbDTNlXHXYcBGNRGzNilvv08z34wLi6wC5vz180twz9eVkVXl494Sf8cgBgFfVkpdFzoX_k2bCUqifxD9xwmzT1cryvb0oOuO0bDczkfs337AYXKVDFlVtO_kArlYxVCpi35K37YyoVPLoj4Ost5CFUJGAztkpOG9-gEY9XdhFahrjT6XyrTUG4c_yverbWfiJvS4nMTIam9-CwS1FI3nje9iJoDZeNqm5f4PyP8SAJ5BR4btyFZchQuOzWvoD3_lEiAvP1XdIpQS-ZJmPLuz6Zc18Job3L261Si5GY8bSehRtU6hqUq2692uZWMtAOgRihe4ltcY55uS8sMKZKrADf4Ukd6F4aLIVCnpwPul7RCtVDWUV7f5hp6u2ZDM62YYTm-Yy6wO0UAcaPZMj37Qk89cjI2klL62Sav8fRzdqAnfpOYV786rZHUscnnk1sly3lirzawWEdOUEu18jismWRqXBPGFuejWUc7_Oi5CuwfmuII7OqPzVIJbebCm_k7fsC-ofBZVfqgSMpRPiRrujVJqAnnIzdg7AKNnpjarYEc194NTBu9YLwYxa0Osbtu_amj9obi2h-jx8xJqUJ78PfR7KG4pTupKcMyIVknWqc-wgzk55MLk3xhJpJap2aC2ooS4HzUi58hAYeSrGpuiiDSn7cSf0e0fqBg.6kbRtEs1RR5eS45UyIh_-A',
-    };
-
-      var json_data = {
-        'delay': 0,
-        'mobileNetwork': true, // Corregido a minúscula
-        'isLive': true, // Corregido a minúscula
-        'contentId': 'CH0100000000040',
-      };
-
-      $.ajax({
-        url: 'https://api.directvgo.com/entitlement/v3/playback/token/authorizer',
-        type: 'POST',
-        headers: headers,
-        contentType: 'application/json',
-        data: JSON.stringify(json_data),
-        success: function(response) {
-          var token = response.token;
-
-          var playerInstance = jwplayer("player");
-          playerInstance.setup({
-            playlist: [{
-              "title": "",
-              "description": "",
-              "image": "#",
-              "sources": [
-                {
-                  "default": false,
-                  "type": "dash",
-                  "file": mpd + '?token=' + token,
-                  "drm": {
-                    "clearkey": {
-                      "keyId": "c4697bf458da52f8b96b36cce761d571",
-                      "key": "a4dee77615279c858b19e5bb69ab6755"
-                    }
-                  },
-                  "label": "0"
-                }
-              ]
-            }],
-            width: "100%",
-            height: "100%",
-            aspectratio: "16:9",
-            autostart: true,
-            cast: {},
-            sharing: {}
-          });
-        }
-      });
+    var playerInstance = jwplayer("player");
+    playerInstance.setup({
+      playlist: [{
+        "title": "",
+        "description": "",
+        "image": "#",
+        "sources": [
+          {
+            "default": false,
+            "type": "dash",
+            "file": mpd + '?token=' + token,
+            "drm": {
+              "clearkey": {
+                "keyId": "c4697bf458da52f8b96b36cce761d571",
+                "key": "a4dee77615279c858b19e5bb69ab6755"
+              }
+            },
+            "label": "0"
+          }
+        ]
+      }],
+      width: "100%",
+      height: "100%",
+      aspectratio: "16:9",
+      autostart: true,
+      cast: {},
+      sharing: {}
     });
-  });
+  }
+});
 </script>
 </body>
 </html>
