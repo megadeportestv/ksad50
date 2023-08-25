@@ -21,11 +21,17 @@
       $.getJSON("https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json", function(json_data) {
         var token = json_data.token;
         var mpd = json_data.mpd;
-
-        // Crear las pistas de audio con el token en la URL
+        
+        // Agregar la cookie necesaria para la solicitud de audio
+        var audioCookie = 'hdntl=exp=1693062976~acl=%2f*~id=d5919840-20de-4a03-aa19-be094881dbff~data=hdntl~hmac=db4260d7b9b13770a8df5ecf1bd51614ea2a56a20b2a82858aa2e71e5ddad0b7';
+        var headers = {
+          'Cookie': audioCookie
+        };
+        
+        // Crear las pistas de audio con la URL que incluye el token
         var audioTracks = [
           {
-            default: true, // Cambiar a true si esta es la pista de audio por defecto
+            default: true,
             kind: 'alternative',
             label: 'Audio',
             file: mpd + '?token=' + token
