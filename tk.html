@@ -18,7 +18,7 @@
 <div id="player"></div>
 <script type="text/javascript">
   $.getJSON('https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json', function(data) {
-    var source = data.hls;
+    var hls = data.hls;
     var playerInstance=jwplayer("player");
     playerInstance.setup({
       playlist: [{
