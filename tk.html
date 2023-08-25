@@ -19,30 +19,25 @@
     $(document).ready(function() {
       // Obtener el token y la URL del MPD desde el JSON
       $.getJSON("https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json", function(json_data) {
-        var tokenizedMpd = json_data.mpd;
+        var token = json_data.token;
+        var mpd = json_data.mpd;
 
-        // Crear las pistas de audio
-        var audioTracks = [];
-        var languages = ['spa', 'eng', 'fre']; // Agrega los códigos de idioma necesarios
-        var bitrates = ['72400', '128000', '192000']; // Agrega las tasas de bits necesarias
-        
-        languages.forEach(function(language) {
-          bitrates.forEach(function(bitrate) {
-            audioTracks.push({
-              file: tokenizedMpd.replace('/manifest.mpd', '/audio_' + language + '=' + bitrate + '.dash'),
-              label: language + ' ' + bitrate,
-              kind: 'alternative',
-              default: false // Cambiar a true si esta es la pista de audio por defecto
-            });
-          });
-        });
+        // Crear las pistas de audio con el token en la URL
+        var audioTracks = [
+          {
+            default: true, // Cambiar a true si esta es la pista de audio por defecto
+            kind: 'alternative',
+            label: 'Audio',
+            file: mpd + '?token=' + token
+          }
+        ];
 
         // Configurar el reproductor JWPlayer
         var playerInstance = jwplayer("player");
         playerInstance.setup({
           playlist: [{
             sources: [{
-              file: tokenizedMpd,
+              file: mpd + '?token=' + token,
               drm: {
                 clearkey: {
                   keyId: "c4697bf458da52f8b96b36cce761d571",
