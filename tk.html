@@ -16,50 +16,44 @@
 <body>
 <div id="player"></div>
 <script type="text/javascript">
-  // Variable para almacenar el token actualizado
-  var token = '';
-
-  // Función para actualizar el token periódicamente
-  function updateToken() {
-    // Realiza la solicitud para obtener el nuevo token y actualiza la variable 'token'
-    $.getJSON('https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json', function(data) {
-      token = data.token;
-
-      // Llama a la función para actualizar el token nuevamente después de un intervalo de tiempo
-      setTimeout(updateToken, 600000); // Cada 10 minutos (ajusta el tiempo según tus necesidades)
+  // Función para cargar el reproductor JW Player con el enlace MPD
+  function loadPlayer(mpdUrl) {
+    // Configuración del reproductor JW Player
+    jwplayer("player").setup({
+      playlist: [{
+        "title": "Video Title",
+        "description": "Video Description",
+        "image": "https://example.com/video-thumbnail.jpg",
+        "sources": [
+          {
+            "default": false,
+            "type": "dash",
+            "file": mpdUrl,
+            "drm": {
+              "clearkey": {
+                "keyId": "c4697bf458da52f8b96b36cce761d571",
+                "key": "a4dee77615279c858b19e5bb69ab6755"
+              }
+            },
+            "label": "0"
+          }
+        ]
+      }],
+      width: "100%",
+      height: "100%",
+      aspectratio: "16:9",
+      autostart: true,
+      cast: {},
+      sharing: {}
     });
   }
 
-  // Inicia el proceso de actualización del token
-  updateToken();
+  // Obtener el enlace MPD del archivo JSON
+  $.getJSON('https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json', function(data) {
+    var mpdUrl = data.mpd;
 
-  // Configuración del reproductor JW Player
-  jwplayer("player").setup({
-    playlist: [{
-      "title": "Video Title",
-      "description": "Video Description",
-      "image": "https://example.com/video-thumbnail.jpg",
-      "sources": [
-        {
-          "default": false,
-          "type": "dash",
-          "file": mpd + '?token=' + token,
-          "drm": {
-            "clearkey": {
-              "keyId": "c4697bf458da52f8b96b36cce761d571",
-              "key": "a4dee77615279c858b19e5bb69ab6755"
-            }
-          },
-          "label": "0"
-        }
-      ]
-    }],
-    width: "100%",
-    height: "100%",
-    aspectratio: "16:9",
-    autostart: true,
-    cast: {},
-    sharing: {}
+    // Llamar a la función para cargar el reproductor JW Player con el enlace MPD
+    loadPlayer(mpdUrl);
   });
 </script>
 </body>
