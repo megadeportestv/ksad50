@@ -16,19 +16,43 @@
 <body>
 <div id="player"></div>
 <script type="text/javascript">
-  // Función para cargar el reproductor JW Player con el enlace MPD
-  function loadPlayer(mpdUrl) {
-    // Configuración del reproductor JW Player
-    jwplayer("player").setup({
+  // Variable para almacenar el token
+  let token = '';
+
+  // Función para actualizar el token
+  async function updateToken() {
+    try {
+      const response = await fetch('https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json');
+      const json = await response.json();
+      const newToken = json.token; // Extraer el token del JSON
+
+      // Actualizar la variable de token en el ambiente
+      token = newToken;
+
+      // Cargar el reproductor con el token actualizado
+      loadPlayer();
+    } catch (error) {
+      console.error('Error actualizando el token:', error);
+    }
+  }
+
+  // Actualizar el token al inicio y luego cada 5 minutos
+  updateToken();
+  setInterval(updateToken, 5 * 60 * 1000); // 5 minutos
+
+  // Función para cargar el reproductor JW Player
+  function loadPlayer() {
+    const playerInstance = jwplayer("player");
+    playerInstance.setup({
       playlist: [{
-        "title": "Video Title",
-        "description": "Video Description",
-        "image": "https://example.com/video-thumbnail.jpg",
+        "title": "",
+        "description": "",
+        "image": "#",
         "sources": [
           {
             "default": false,
             "type": "dash",
-            "file": mpdUrl,
+            "file": token, // Usar el token directamente como URL
             "drm": {
               "clearkey": {
                 "keyId": "c4697bf458da52f8b96b36cce761d571",
@@ -47,14 +71,6 @@
       sharing: {}
     });
   }
-
-  // Obtener el enlace MPD del archivo JSON
-  $.getJSON('https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json', function(data) {
-    var mpdUrl = data.mpd;
-
-    // Llamar a la función para cargar el reproductor JW Player con el enlace MPD
-    loadPlayer(mpdUrl);
-  });
 </script>
 </body>
 </html>
