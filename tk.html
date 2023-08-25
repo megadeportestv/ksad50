@@ -25,7 +25,7 @@ body{
 </head>
 <div id="player"></div>
 <script>
-$.getJSON('https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json', function(json_data) {
+$.getJSON('https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json'), function(json_data) {
   var token = json_data.token; // Obtener el token del JSON
   var mpd = json_data.mpd; // Obtener la URL del MPD del JSON
 
