@@ -21,15 +21,21 @@
       $.getJSON("https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json", function(json_data) {
         var tokenizedMpd = json_data.mpd;
 
-        // Configurar las pistas de audio
+        // Crear las pistas de audio
         var audioTracks = [];
-        // Agrega aquí las pistas de audio con sus URLs correspondientes
-        audioTracks.push({
-          file: tokenizedMpd.replace('/manifest.mpd', '/audio/{language}/{bitrate}/manifest.mpd'),
-          kind: 'alternative',
-          default: true // Cambiar a true si esta es la pista de audio por defecto
+        var languages = ['spa', 'eng', 'fre']; // Agrega los códigos de idioma necesarios
+        var bitrates = ['72400', '128000', '192000']; // Agrega las tasas de bits necesarias
+        
+        languages.forEach(function(language) {
+          bitrates.forEach(function(bitrate) {
+            audioTracks.push({
+              file: tokenizedMpd.replace('/manifest.mpd', '/audio_' + language + '=' + bitrate + '.dash'),
+              label: language + ' ' + bitrate,
+              kind: 'alternative',
+              default: false // Cambiar a true si esta es la pista de audio por defecto
+            });
+          });
         });
-        // Agrega más pistas de audio si es necesario
 
         // Configurar el reproductor JWPlayer
         var playerInstance = jwplayer("player");
