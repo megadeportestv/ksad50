@@ -17,7 +17,7 @@
 <body>
 <div id="player"></div>
 <script type="text/javascript">
-  $.getJSON('https://corsproxy.io/?url=https://tcnt.golf/json/capturado.json', function(data) {
+  $.getJSON('https://api.codetabs.com/v1/proxy/?quest=https://tcnt.golf/json/capturado.json?', function(data) {
     var mpd = data.mpd;
     var playerInstance=jwplayer("player");
     playerInstance.setup({
@@ -32,8 +32,8 @@
             "file": mpd,
             "drm": {
               "clearkey": {
-                "keyId": "d677a19db3a05a019d8683b9250cbc0f",
-                "key": "e2756e96d7d9d63729b645a6139cb513"
+                "keyId": "d83e2e0cb9735bea9fc9f0b90cea1e14",
+                "key": "78ecb51bf93594cd4a7d904bd48bbd0a"
               }
             },
             "label": "0"
