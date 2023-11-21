@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iRaffle TV Player</title>
+    <style>
+        body {
+            background: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100% !important;
+            height: 100vh !important;
+        }
+
+        #player {
+            height: 100% !important;
+            width: 100% !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="player"></div>
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/console-ban@5.0.0/dist/console-ban.min.js"></script>
+    <script> //ConsoleBan.init({ redirect: '//irtvhn.info?p=404&console'}); </script>
+    <script src="//ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
+    <script> jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+    </script>
+    <script>
+    function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\[").replace(/[\]]/, "\]");
+                var regex = new RegExp("[\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+            var source = getParameterByName('get');
+            var key = getParameterByName('key');
+            var key2 = getParameterByName('key2');
+            var playerInstance = jwplayer("player");
+            var playlistItem = {
+            sources: [
+                {
+                    default: false,
+                    type: "dash",
+                    file: atob(source),
+                    drm: {
+                        clearkey: { keyId: atob(key), key: atob(key2) },
+                    },
+                    label: "0",
+                },
+            ],
+        };
+        playerInstance.setup({
+        playlist: [playlistItem],
+        height: "100vh",
+        width: "100%",
+        aspectratio: "16:9",
+        stretching: "bestfit",
+        mediaid: "player",
+        mute: false,
+        autostart: false,
+        language: "es",
+        logo: {
+            file: "https://eduveel1.github.io/baleada/img/iRTVW_PLAYER.png",
+            hide: "false",
+            position: "top-left"
+        }
+    });
+    // Preview Hack
+jwplayer().play();
+jwplayer().setMute(false);
+jwplayer().setControls(true);
+jwplayer(player).on('play', function(e) {jwplayer(player).setCurrentAudioTrack(1);})
+
+
+    </script>
+</body>
+
+</html>
