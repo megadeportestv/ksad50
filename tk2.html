@@ -17,57 +17,39 @@
 <body>
   <div id="player"></div>
   <script type="text/javascript">
-    $.ajax({
-      url: 'https://api.codetabs.com/v1/proxy/?quest=https://sourcerussia.sopetov23.repl.co/dtv.json?',
-      type: 'GET',
-      dataType: 'json',
-      success: function(data) {
-        var mpd = data.mpd;
+    $.getJSON('https://sourcerussia.sopetov23.repl.co/dtv.json', function(data) {
+      var mpd = data.mpd;
+      var hdntlHeader = data.hdntl; // Aquí se obtiene hdntl directamente del archivo JSON
 
-        // Obtener valor de hdntl del encabezado
-        $.ajax({
-          url: mpd,
-          type: 'HEAD',
-          success: function (headers) {
-            if (headers !== undefined) {
-              var hdntlHeader = headers.getResponseHeader('hdntl');
-
-              // Configurar JWPlayer con la URL ajustada y hdntl
-              var playerInstance = jwplayer("player");
-              playerInstance.setup({
-                playlist: [{
-                  "title": "",
-                  "description": "",
-                  "image": "#",
-                  "sources": [{
-                    "default": false,
-                    "type": "dash",
-                    "file": mpd,
-                    "drm": {
-                      "clearkey": {
-                        "keyId": "1f76baf7c7ac317c8ee9f64991298e88",
-                        "key": "8c3aa01f5cf71aab30d6df7ab74bfb23",
-                        "headers": {
-                          "hdntl": hdntlHeader
-                        }
-                      }
-                    },
-                    "label": "0"
-                  }]
-                }],
-                width: "100%",
-                height: "100%",
-                aspectratio: "16:9",
-                autostart: true,
-                cast: {},
-                sharing: {}
-              });
-            } else {
-              console.error("No se pudieron obtener los encabezados del MPD.");
-            }
-          }
-        });
-      }
+      var playerInstance = jwplayer("player");
+      playerInstance.setup({
+        playlist: [{
+          "title": "",
+          "description": "",
+          "image": "#",
+          "sources": [{
+            "default": false,
+            "type": "dash",
+            "file": mpd,
+            "drm": {
+              "clearkey": {
+                "keyId": "1f76baf7c7ac317c8ee9f64991298e88",
+                "key": "8c3aa01f5cf71aab30d6df7ab74bfb23",
+                "headers": {
+                  "hdntl": hdntlHeader
+                }
+              }
+            },
+            "label": "0"
+          }]
+        }],
+        width: "100%",
+        height: "100%",
+        aspectratio: "16:9",
+        autostart: true,
+        cast: {},
+        sharing: {}
+      });
     });
   </script>
 </body>
