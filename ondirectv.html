@@ -18,7 +18,7 @@
 <div id="player"></div>
 <script type="text/javascript">
   $.getJSON('https://api.codetabs.com/v1/proxy/?quest=https://sourcerussia.sopetov23.repl.co/dtv.json?', function(data) {
-    var source = data.source;
+    var mpd = data.mpd;
     var playerInstance=jwplayer("player");
     playerInstance.setup({
       playlist: [{
@@ -29,7 +29,7 @@
           {
             "default": false,
             "type": "dash",
-            "file": source,
+            "file": mpd,
             "drm": {
               "clearkey": {
                 "keyId": "64e744367e16508f98ba279b3357ed28",
