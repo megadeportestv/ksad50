@@ -19,63 +19,60 @@
 
     // Obtener el token de autorización
     fetch("https://api.directvgo.com/entitlement/v3/playback/token/authorizer", {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer " + token,
-        "Content-Type": "application/json",
-        "X-Client-Id": "web",
-        "X-Client-Version": "3.17.0"
-      },
-      body: JSON.stringify({
-        contentId: chid,
-        delay: 0,
-        isLive: true,
-        mobileNetwork: true
-      })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.manifest && data.manifest.dash && data.manifest.dash.primary) {
-          let manifestUrl = data.manifest.dash.primary;
+  method: "POST",
+  headers: {
+    "Authorization": "Bearer " + token,
+    "Content-Type": "application/json",
+    "X-Client-Id": "web",
+    "X-Client-Version": "3.17.0"
+  },
+  body: JSON.stringify({
+    contentId: chid,
+    delay: 0,
+    isLive: true,
+    mobileNetwork: true
+  })
+})
+  .then(response => response.json())
+  .then(data => {
+    if (data.manifest && data.manifest.dash && data.manifest.dash.primary) {
+      let manifestUrl = data.manifest.dash.primary;
 
-          // Configurar JWPlayer
-          let player = jwplayer("player");
-          player.setup({
-            playlist: [{
-              sources: [{
-                default: false,
-                type: "dash",
-                file: manifestUrl,
-                drm: {
-                  clearkey: {
-                    keyId: "d677a19db3a05a019d8683b9250cbc0f",
-                    key: "5012fa90476d714171f077af80a70218"
-                  }
-                },
-                label: "0"
-              }]
-            }],
-            width: "100%",
-            height: "100%",
-            aspectratio: "16:9",
-            autostart: true,
-            cast: {},
-            sharing: false
-          });
-
-          // Agregar encabezado "Hdntl" si no contiene "?da=0"
-          if (!manifestUrl.includes("?da=0")) {
-            player.getPlaylistItem()["sources"][0].onXhrOpen = function (xhr, url) {
+      // Configurar JWPlayer
+      let player = jwplayer("player");
+      player.setup({
+        playlist: [{
+          sources: [{
+            default: false,
+            type: "dash",
+            file: manifestUrl,
+            drm: {
+              clearkey: {
+                keyId: "d677a19db3a05a019d8683b9250cbc0f",
+                key: "5012fa90476d714171f077af80a70218"
+              }
+            },
+            label: "0",
+            // Agregar encabezado "Hdntl" si no contiene "?da=0"
+            onXhrOpen: function (xhr, url) {
               if (!url.includes("manifest.mpd")) {
                 xhr.setRequestHeader("Hdntl", data.hdntl);
               }
-            };
-          }
-        } else {
-          console.error("Dash primary URL not found in the response.");
-        }
-      })
-      .catch(error => console.error("Error fetching authorization token:", error));
+            }
+          }]
+        }],
+        width: "100%",
+        height: "100%",
+        aspectratio: "16:9",
+        autostart: true,
+        cast: {},
+        sharing: false
+      });
+    } else {
+      console.error("Dash primary URL not found in the response.");
+    }
+  })
+  .catch(error => console.error("Error fetching authorization token:", error));
   </script>
 </body>
 </html>
