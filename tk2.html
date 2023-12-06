@@ -1,73 +1,1539 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="robots" content="noindex" />
-  <style type="text/css">
-    body {
-      margin: 0;
-      padding: 0;
+<!--PLAYER-->
+<!doctype html>
+<html lang="pt_BR">
+
+<style type="text/css">
+	    body {
+      background-color: black; /* Define a cor de fundo como preto */
+      color: white; /* Define a cor do texto como branco para melhor legibilidade */
     }
-  </style>
-  <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
-  <script>
-    jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
-  </script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+body {
+   margin: 0;
+   padding: 0;
+}
+	#player {
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 1;
+			height: 100%;
+			width: 90%;
+			border: 0;
+			overflow: hidden;
+</style>
+	<meta name="referrer" content="no-referrer">
+	<script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
+	<script type="text/javascript">
+document.write(unescape('%20%3C%73%63%72%69%70%74%20%74%79%70%65%3D%22%74%65%78%74%2F%6A%61%76%61%73%63%72%69%70%74%22%20%6C%61%6E%67%75%61%67%65%3D%22%4A%61%76%61%73%63%72%69%70%74%22%3E%0A%64%6F%63%75%6D%65%6E%74%2E%6F%6E%63%6F%6E%74%65%78%74%6D%65%6E%75%20%3D%20%66%75%6E%63%74%69%6F%6E%28%29%7B%72%65%74%75%72%6E%20%66%61%6C%73%65%7D%0A%3C%2F%73%63%72%69%70%74%3E%0A%20%20%3C%73%63%72%69%70%74%20%73%72%63%3D%22%68%74%74%70%73%3A%2F%2F%63%64%6E%2E%6A%73%64%65%6C%69%76%72%2E%6E%65%74%2F%6E%70%6D%2F%63%6F%6E%73%6F%6C%65%2D%62%61%6E%40%34%2E%31%2E%30%2F%64%69%73%74%2F%63%6F%6E%73%6F%6C%65%2D%62%61%6E%2E%6D%69%6E%2E%6A%73%22%3E%3C%2F%73%63%72%69%70%74%3E%0A%20%20%3C%73%63%72%69%70%74%3E%0A%20%20%20%20%2F%2F%20%64%65%66%61%75%6C%74%20%6F%70%74%69%6F%6E%73%0A%20%20%20%20%43%6F%6E%73%6F%6C%65%42%61%6E%2E%69%6E%69%74%28%29%0A%20%20%20%20%2F%2F%20%63%75%73%74%6F%6D%20%6F%70%74%69%6F%6E%73%0A%20%20%20%20%43%6F%6E%73%6F%6C%65%42%61%6E%2E%69%6E%69%74%28%7B%0A%20%20%20%20%20%20%72%65%64%69%72%65%63%74%3A%20%27%2F%27%0A%20%20%20%20%7D%29%0A%20%20%3C%2F%73%63%72%69%70%74%3E%0A'));
+		jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+	</script>
 </head>
+
 <body>
-  <div id="player"></div>
-  <script type="text/javascript">
-    $.getJSON('https://corsproxy.io/?url=https://sourcerussia.sopetov23.repl.co/dtv.json?', function(data) {
-      var mpd = data.mpd;
-      var playerInstance = jwplayer("player");
-
-      // Agregar hdntl a las solicitudes del reproductor
-      playerInstance.on('beforePlay', function() {
-        playerInstance.getPlaylistItem().file = addHdntlToUrl(source);
-      });
-
-      // Función para agregar hdntl a la URL
-      function addHdntlToUrl(url) {
-        var hdntlValue = getHdntlValue(); // Debes implementar esta función
-        var separator = (url.indexOf('?') !== -1) ? '&' : '?';
-        return url + separator + 'hdntl=' + encodeURIComponent(hdntlValue);
+	<div id="player"></div>
+	<script>
+    let token = "eyJ0eXAiOiJKV1QiLCJraWQiOiJ3VTNpZklJYUxPVUFSZVJCL0ZHNmVNMVAxUU09IiwiYWxnIjoiUlMyNTYifQ.eyJhdF9oYXNoIjoibHZvQkZFSkdhTkN4MWJJT2JvVGk3QSIsInN1YiI6InZpZ2lhcGFzQGhvdG1haWwuY29tIiwiYnVzaW5lc3NVbml0IjoiU1NMQS1EVEgiLCJyZWdpb25zIjpbImY5MTdjZmY2LTAyNWEtNDkxNy04NGQ2LWZiNjg2Njk3ZDkzYyIsIjVjM2MxMzUxLWVkMjgtNGNmYS04MDMxLTkxYzhhMTQ5MTJhNSJdLCJhdWRpdFRyYWNraW5nSWQiOiIxZWNlNWMzZi03OTA1LTRkZjYtYWI1Ni01YTBjYmI4NWIwMzYtMzM1Njg4ODkiLCJpc28yQ29kZSI6IkFSIiwiaXNzIjoiaHR0cHM6Ly9wcm9kcm9jay5kaXJlY3R2Z28uY29tOjQ0My9vcGVuYW0vb2F1dGgyL3JlYWxtcy9yb290L3JlYWxtcy9zc2xhIiwidG9rZW5OYW1lIjoiaWRfdG9rZW4iLCJkZXZpY2VJZCI6IlgzQ1U3dWh2RkFRWUhhM0lfQVpGanJVQWd4NFNPNVdTMGhGTkhSbFJlX2MiLCJjdXN0b21lclN0YXR1cyI6IkFjdGl2ZSIsImF6cCI6ImR0dmdvIiwiZmFtaWx5TmFtZSI6IlNBWUVTIiwiYXV0aF90aW1lIjoxNzAxODA1OTA3LCJjdXN0b21lcklkIjoiMjM3MjgxODYiLCJleHAiOjE3MDE5NzE1MTAsImlhdCI6MTcwMTgwNTkxMCwiY3VzdG9tZXJTdGF0dXNNZXNzYWdlIjoiMTAwMSIsImlic0FjY291bnRTdGF0dXMiOiJBQ1RJVkUiLCJnaXZlbk5hbWUiOiJQQUJMTyBBTEVYSSIsInNlcnZpY2VQcm92aWRlckFjY291bnRJZCI6IjU4MGVkZWNmLWVhN2QtNDY2Ni1hNDI5LTQwZmVjY2E3MmM1YiIsInZyaW9EZXZpY2VJZCI6ImRhYmFlY2YwLTAxNTMtNDQzMy04YzhlLWM3MWFjZTdlNGFlOCIsImF1ZCI6ImR0dmdvIiwiY2hhbm5lbHMiOlsiQ0gwMTAwMDAwMDAwMDE5IiwiQ0gwMTAwMDAwMDAwMTY3IiwiQ0gwMTAwMDAwMDAwMDc2IiwiQ0gwMTAwMDAwMDAwMTA3IiwiQ0gwMTAwMDAwMDAwMjAyIiwiQ0gwMTAwMDAwMDAwMDI2IiwiQ0gwMTAwMDAwMDAwMTY5IiwiQ0gwMTAwMDAwMDAwMTUxIiwiQ0gwMTAwMDAwMDAwMjE2IiwiQ0gwMTAwMDAwMDAwMjA5IiwiQ0gwMTAwMDAwMDAwMDc1IiwiQ0gwMTAwMDAwMDAwMjk1IiwiQ0gwMTAwMDAwMDAwMjkzIiwiQ0gwMTAwMDAwMDAwMDM5IiwiQ0gwMTAwMDAwMDAwMDg3IiwiQ0gwMTAwMDAwMDAwMjI5IiwiQ0gwMTAwMDAwMDAwMDE4IiwiQ0gwMTAwMDAwMDAwMDY4IiwiQ0gwMTAwMDAwMDAwMDM4IiwiQ0gwMTAwMDAwMDAwMDIwIiwiQ0gwMTAwMDAwMDAwMDE1IiwiQ0gwMTAwMDAwMDAwMTQyIiwiQ0gwMTAwMDAwMDAwMTQwIiwiQ0gwMTAwMDAwMDAwMTcxIiwiQ0gwMTAwMDAwMDAwMTE3IiwiQ0gwMTAwMDAwMDAwMDY1IiwiQ0gwMTAwMDAwMDAwMDQ2IiwiQ0gwMTAwMDAwMDAwMjM1IiwiQ0gwMTAwMDAwMDAwMjg2IiwiQ0gwMTAwMDAwMDAwMjMwIiwiQ0gwMTAwMDAwMDAwMjkyIiwiQ0gwMTAwMDAwMDAwMTM5IiwiQ0gwMTAwMDAwMDAwMjAzIiwiQ0gwMTAwMDAwMDAwMDUwIiwiQ0gwMTAwMDAwMDAwMDc0IiwiQ0gwMTAwMDAwMDAwMTE4IiwiQ0gwMTAwMDAwMDAwMTYxIiwiQ0gwMTAwMDAwMDAwMjcxIiwiQ0gwMTAwMDAwMDAwMDgwIiwiQ0gwMTAwMDAwMDAwMDY0IiwiQ0gwMTAwMDAwMDAwMDg2IiwiQ0gwMTAwMDAwMDAwMTQ4IiwiQ0gwMTAwMDAwMDAwMjE1IiwiQ0gwMTAwMDAwMDAwMjIzIiwiQ0gwMTAwMDAwMDAwMjQ3IiwiQ0gwMTAwMDAwMDAwMjU5IiwiQ0gwMTAwMDAwMDAwMTI4IiwiQ0gwMTAwMDAwMDAwMDM3IiwiQ0gwMTAwMDAwMDAwMjY4IiwiQ0gwMTAwMDAwMDAwMjM2IiwiQ0gwMTAwMDAwMDAwMTQ2IiwiQ0gwMTAwMDAwMDAwMTE1IiwiQ0gwMTAwMDAwMDAwMDMxIiwiQ0gwMTAwMDAwMDAwMTk0IiwiQ0gwMTAwMDAwMDAwMjY5IiwiQ0gwMTAwMDAwMDAwMjYzIiwiQ0gwMTAwMDAwMDAwMDk4IiwiQ0gwMTAwMDAwMDAwMjA3IiwiQ0gwMTAwMDAwMDAwMDUzIiwiQ0gwMTAwMDAwMDAwMDQ0IiwiQ0gwMTAwMDAwMDAwMjcwIiwiQ0gwMTAwMDAwMDAwMjY3IiwiQ0gwMTAwMDAwMDAwMDUyIiwiQ0gwMTAwMDAwMDAwMjIyIiwiQ0gwMTAwMDAwMDAwMjM5IiwiQ0gwMTAwMDAwMDAwMDg1IiwiQ0gwMTAwMDAwMDAwMTkzIiwiQ0gwMTAwMDAwMDAwMDkyIiwiQ0gwMTAwMDAwMDAwMTA2IiwiQ0gwMTAwMDAwMDAwMTExIiwiQ0gwMTAwMDAwMDAwMTEyIiwiQ0gwMTAwMDAwMDAwMTE5IiwiQ0gwMTAwMDAwMDAwMzAyIiwiQ0gwMTAwMDAwMDAwMTQxIiwiQ0gwMTAwMDAwMDAwMjgxIiwiQ0gwMTAwMDAwMDAwMTM0IiwiQ0gwMTAwMDAwMDAwMTM2IiwiQ0gwMTAwMDAwMDAwMjgzIiwiQ0gwMTAwMDAwMDAwMjk4IiwiQ0gwMTAwMDAwMDAwMjA4IiwiQ0gwMTAwMDAwMDAwMjI2IiwiQ0gwMTAwMDAwMDAwMjczIiwiQ0gwMTAwMDAwMDAwMjc2IiwiQ0gwMTAwMDAwMDAwMzEyIiwiQ0gwMTAwMDAwMDAwMzE1IiwiQ0gwMTAwMDAwMDAwMzE2IiwiQ0gwMTAwMDAwMDAwMzE3IiwiQ0gwMTAwMDAwMDAwMzMxIiwiQ0gwMTAwMDAwMDAwMzM0IiwiQ0gwMTAwMDAwMDAwMzM3Il0sInZyaW9DdXN0b21lcklkIjoiNTgwZWRlY2YtZWE3ZC00NjY2LWE0MjktNDBmZWNjYTcyYzViIiwibmFtZSI6IlBBQkxPIEFMRVhJIFNBWUVTIiwicmVhbG0iOiIvc3NsYSIsImNzbSI6IjIiLCJ0b2tlblR5cGUiOiJKV1RUb2tlbiJ9.hFq31yudXYjNgF9RWQIAN8g2jnJpdH1jMkL0efiGzn7DU0oC0ai2V_Mo3LquhGEPLs0XWbukSiXCeZgDtzKMAO8VG1IVgDPfcUmYukhMyWyRtB-DJbhlglDQwcUELNLqHLfRRemYZIMMww_EaY9094httI6U6rS6bZ6utD-CPF0BiC97motrxrqVcLW8zhjVCQrUjQigi9Yh7weWNMugj7MUTya5PeYiiUJAMe8pFOkWhiqzbxta1jzflNzvpKzG-nzIPp0_DuQisEX3XzCcuhgihl66A4-lYSSGUn9TmkUwKBaXiGT6UJriIGZ4TioMO4UQsrE3O1mX-F_ZcRqa5A";
+function getParameterByName(_0x95ba3b) {
+  var _0x3391ec = (function () {
+    var _0x46b2e5 = {
+      Gvpev: 'CH0100000000070',
+      QxYvv:
+        'ff0bdee8457e5fdd9cbe92f06ea21f3c:dad1b98bf1dd14147cfdc885e8886314',
+      cwnfD: 'CH0100000000194',
+      wfceL:
+        '8fad32ba2f5e5f7cb53bdf380c987505:15a9a7f30424e1f5a27d7d2c2b2abf01',
+      rFMmQ: function (_0x5d1c87, _0x26195f) {
+        return _0x5d1c87 === _0x26195f
+      },
+      DQJNP: 'dvuUj',
+      KAXuH: 'byuYF',
+      bQSZg: 'manifest.mpd',
+      nyCLQ: 'Hdntl',
+      blStJ: function (_0x43d948, _0x3d05b8) {
+        return _0x43d948 !== _0x3d05b8
+      },
+      WpdQL: 'rWIXF',
+      CzBEj: 'nGgzs',
+      XNvZg: 'CH0100000000115',
+      PgPSS:
+        '16a83a9ac18f5a1abba01b024975a405:d203be425b408a53b9e03dfdb399989c',
+    }
+    var _0x24fd8e = true
+    return function (_0x3da2b7, _0x1fea5b) {
+      var _0x4dedb5 = {
+        juUQg: _0x46b2e5.bQSZg,
+        HsRcR: _0x46b2e5.nyCLQ,
       }
-
-      // Función para obtener el valor de hdntl (puedes ajustar esto según tu lógica)
-      function getHdntlValue() {
-        // Implementa la lógica para obtener el valor de hdntl aquí
-        return "valor_de_hdntl";
-      }
-
-      playerInstance.setup({
-        playlist: [{
-          "title": "Todo Pelota TV ",
-          "description": "",
-          "image": "#",
-          "sources": [
-            {
-              "default": false,
-              "type": "dash",
-              "file": mpd,
-              "drm": {
-                "clearkey": {
-                  "keyId": "d677a19db3a05a019d8683b9250cbc0f",
-                  "key": "5012fa90476d714171f077af80a70218"
+      var _0x530705 = _0x4dedb5
+      if (_0x46b2e5.blStJ(_0x46b2e5.WpdQL, _0x46b2e5.CzBEj)) {
+        var _0x158427 = _0x24fd8e
+          ? function () {
+              var _0x369b10 = {
+                KfoKy: _0x46b2e5.Gvpev,
+                eQtab: _0x46b2e5.QxYvv,
+                pQABS: _0x46b2e5.cwnfD,
+                weAHY: _0x46b2e5.wfceL,
+              }
+              var _0x1fb253 = _0x369b10
+              if (_0x46b2e5.rFMmQ(_0x46b2e5.DQJNP, _0x46b2e5.DQJNP)) {
+                if (_0x1fea5b) {
+                  if (_0x46b2e5.rFMmQ(_0x46b2e5.KAXuH, _0x46b2e5.KAXuH)) {
+                    var _0xe984e = _0x1fea5b.apply(_0x3da2b7, arguments)
+                    return (_0x1fea5b = null), _0xe984e
+                  } else {
+                    _0x55512c = _0x1fb253.KfoKy
+                    _0x3a0404 = _0x1fb253.eQtab
+                    _0x40833e = ''
+                  }
                 }
-              },
-              "label": "0"
+              } else {
+                _0x558af4 = _0x1fb253.pQABS
+                _0x216daf = _0x1fb253.weAHY
+                _0x34929a = ''
+              }
             }
-          ]
-        }],
-        width: "100%",
-        height: "100%",
-        aspectratio: "16:9",
+          : function () {}
+        return (_0x24fd8e = false), _0x158427
+      } else {
+        _0x23c1dd[0].onXhrOpen = function (_0x50d51b, _0x3f0c2d) {
+          !_0x3f0c2d.includes(_0x530705.juUQg) &&
+            _0x50d51b.setRequestHeader(_0x530705.HsRcR, _0x303b62)
+        }
+      }
+    }
+  })()
+  var _0x30be89 = _0x3391ec(this, function () {
+    return _0x30be89
+      .toString()
+      .search('(((.+)+)+)+$')
+      .toString()
+      .constructor(_0x30be89)
+      .search('(((.+)+)+)+$')
+  })
+  _0x30be89()
+  var _0x2b75c2 = (function () {
+    var _0x1acee0 = true
+    return function (_0x3726e2, _0x12ed9f) {
+      var _0x4068f2 = _0x1acee0
+        ? function () {
+            if (_0x12ed9f) {
+              var _0x3729c8 = _0x12ed9f.apply(_0x3726e2, arguments)
+              return (_0x12ed9f = null), _0x3729c8
+            }
+          }
+        : function () {}
+      return (_0x1acee0 = false), _0x4068f2
+    }
+  })()
+  ;(function () {
+    _0x2b75c2(this, function () {
+      var _0x15c3ae = new RegExp('function *\\( *\\)'),
+        _0x56acf3 = new RegExp('\\+\\+ *(?:[a-zA-Z_$][0-9a-zA-Z_$]*)', 'i'),
+        _0x22de07 = _0x26a8f8('init')
+      if (
+        !_0x15c3ae.test(_0x22de07 + 'chain') ||
+        !_0x56acf3.test(_0x22de07 + 'input')
+      ) {
+        _0x22de07('0')
+      } else {
+        _0x26a8f8()
+      }
+    })()
+  })()
+  var _0x1ed548 = (function () {
+    var _0x1c5ac7 = true
+    return function (_0x5ea49e, _0x199b28) {
+      var _0x3a83a8 = _0x1c5ac7
+        ? function () {
+            if (_0x199b28) {
+              var _0x2ad0c0 = _0x199b28.apply(_0x5ea49e, arguments)
+              return (_0x199b28 = null), _0x2ad0c0
+            }
+          }
+        : function () {}
+      return (_0x1c5ac7 = false), _0x3a83a8
+    }
+  })()
+  var _0x49f48b = _0x1ed548(this, function () {
+    var _0xddc401 = function () {
+        var _0x1fc37a
+        try {
+          _0x1fc37a = Function(
+            'return (function() {}.constructor("return this")( ));'
+          )()
+        } catch (_0x4c4594) {
+          _0x1fc37a = window
+        }
+        return _0x1fc37a
+      },
+      _0x23609a = _0xddc401(),
+      _0x4c55eb = (_0x23609a.console = _0x23609a.console || {}),
+      _0x1361f1 = [
+        'log',
+        'warn',
+        'info',
+        'error',
+        'exception',
+        'table',
+        'trace',
+      ]
+    for (var _0x168b3a = 0; _0x168b3a < _0x1361f1.length; _0x168b3a++) {
+      var _0x3d1b24 = _0x1ed548.constructor.prototype.bind(_0x1ed548)
+      var _0x2a7c13 = _0x1361f1[_0x168b3a]
+      var _0x1dd67b = _0x4c55eb[_0x2a7c13] || _0x3d1b24
+      _0x3d1b24['__proto__'] = _0x1ed548.bind(_0x1ed548)
+      _0x3d1b24.toString = _0x1dd67b.toString.bind(_0x1dd67b)
+      _0x4c55eb[_0x2a7c13] = _0x3d1b24
+    }
+  })
+  _0x49f48b()
+  _0x95ba3b = _0x95ba3b.replace(/[\[]/, '[').replace(/[\]]/, ']')
+  var _0x85b411 = new RegExp('[?&]' + _0x95ba3b + '=([^&#]*)'),
+    _0x31c7ed = _0x85b411.exec(location.search)
+  return _0x31c7ed === null
+    ? ''
+    : decodeURIComponent(_0x31c7ed[1].replace(/\+/g, ' '))
+}
+var id = getParameterByName('id')
+id == '#' && alert('Pagina Anterior')
+if (id == 'espn') {
+  chid = 'CH0100000000134'
+  k = 'd677a19db3a05a019d8683b9250cbc0f:5012fa90476d714171f077af80a70218'
+  k2 = ''
+} else {
+  if (id == 'espn2') {
+    chid = 'CH0100000000092'
+    k = 'e50c1ee0d0f13cb99956a092a098b5de:0b28ccbe3f57dde84a6a2cd6ffd73ce9'
+    k2 = ''
+  } else {
+    if (id == 'espn3') {
+      chid = 'CH0100000000074'
+      k = 'ac19bd0c6c5332e7865e3819e4b85935:0ccff0da00f364752a4b7f0732285292'
+      k2 = ''
+    } else {
+      if (id == 'espn4') {
+        chid = 'CH0100000000117'
+        k = '7dcb66746b803c7e9cf9b1a0b97fc308:6f1d49a343be947ad732553bf7ff052c'
+        k2 = ''
+      } else {
+        if (id == 'espnExtra') {
+          chid = 'CH0100000000056'
+          k =
+            'd0652911b7015750aa0571fc60d8d875:c7df0df985acec752fa4ddb434e2c1a2'
+          k2 = ''
+        } else {
+          if (id == 'foxSports2') {
+            chid = 'CH0100000000075'
+            k =
+              'ca03fe421d0735b9b7d288e7fae3f2bd:52c55fa2caf41f3ab398cc04b30e9da9'
+            k2 = ''
+          } else {
+            if (id == 'sportv') {
+              chid = 'CH0100000000064'
+              k =
+                'c415b21ce53f3ae285492894f11dc168:719758e6919f46ed760d50b5ab03fb83'
+              k2 = ''
+            } else {
+              if (id == 'sportv2') {
+                chid = 'CH0100000000063'
+                k =
+                  'dc27afadb7403815adc6eee04d590d36:e09b23c8645c3c0419826823b49bc8e6'
+                k2 = ''
+              } else {
+                if (id == 'sportv3') {
+                  chid = 'CH0100000000062'
+                  k =
+                    'ef8e8577401d360299ef398ed66ff524:4e82f7812d3f4ed3454f46ec385902b5'
+                  k2 = ''
+                } else {
+                  if (id == 'tnt') {
+                    chid = 'CH0100000000093'
+                    k =
+                      '4d2f65c1e6573da2991edb00f427c2e0:1c6289bc4036797e4b5cc78a35fa2ece'
+                    k2 = ''
+                  } else {
+                    if (id == 'space') {
+                      chid = 'CH0100000000097'
+                      k =
+                        '84ccdd14d6335a09bc4541e485a56fb7:77f5a776272a0301758023fd6257e820'
+                      k2 = ''
+                    } else {
+                      if (id == 'ae') {
+                        chid = 'CH0100000000110'
+                        k =
+                          'ee227d3abd6e54c9b94eb8527900a634:1a3dcd4f84410b51b861b5ec99c991d4'
+                        k2 = ''
+                      } else {
+                        if (id == 'amc') {
+                          chid = 'CH0100000000082'
+                          k =
+                            '2d53d416f41c3fe0be013a6673011cd5:cd9e80c6a4ca125f876c60c84c82aff6'
+                          k2 = ''
+                        } else {
+                          if (id == 'swim') {
+                            chid = 'CH0100000000060'
+                            k =
+                              '0ed326c0eb67574eb47c6bbc819721ad:f35e7d0280b2541ef9c5f5c89c7b9680'
+                            k2 = ''
+                          } else {
+                            if (id == 'animalPlanet') {
+                              chid = 'CH0100000000116'
+                              k =
+                                '64190f7a981d5a6c836c6461599cb6cc:377f0c547548272ae6fee5156cc76f35'
+                              k2 = ''
+                            } else {
+                              if (id == 'axn') {
+                                chid = 'CH0100000000086'
+                                k =
+                                  '5fcfd3117f6c39cfb75f507ea45cf150:564ba92660a59472dbe353dec6e2df1f'
+                                k2 = ''
+                              } else {
+                                if (id == 'band') {
+                                  chid = 'CH0100000000088'
+                                  k =
+                                    '0dbc422a1181541aaedcb15b97870ad9:92425dc7dc8a9f090d8fe9f33ed68d45'
+                                  k2 = ''
+                                } else {
+                                  if (id == 'bandNews') {
+                                    chid = 'CH0100000000089'
+                                    k =
+                                      '3190bd4ce11356dfa654b03f5848e20d:43ae04db527d3ae8e410c15a23d339ee'
+                                    k2 = ''
+                                  } else {
+                                    if (id == 'bandSports') {
+                                      chid = 'CH0100000000124'
+                                      k =
+                                        'bd1af42db82f5a17a0d75246f25f5201:a9edd4e2c410923e9cbcb261102e5008'
+                                      k2 = ''
+                                    } else {
+                                      if (id == 'bis') {
+                                        chid = 'CH0100000000073'
+                                        k =
+                                          'd00f407f39395bc1b3718683c31e5837:80188a26136ec57dd6732d380aeb14ce'
+                                        k2 = ''
+                                      } else {
+                                        if (id == 'canalBrasil') {
+                                          chid = 'CH0100000000072'
+                                          k =
+                                            'ccb2a4348ba157b0a2b4d1b615edec0c:16ea8ff64c2f00c26c4d83c87a2ae250'
+                                          k2 = ''
+                                        } else {
+                                          if (id == 'CanalBoi') {
+                                            chid = 'CH0100000000212'
+                                            k =
+                                              '64a4c38d7b7958fc980275e6be7849bd:388ce4d1cb53fef986cabe6f3f2dec20'
+                                            k2 = ''
+                                          } else {
+                                            if (id == 'cancaoNova') {
+                                              chid = 'CH0100000000213'
+                                              k =
+                                                '555a1120ce095daab4538cf424fdfeec:38ab5e143b45641d16930b8e1648e62a'
+                                              k2 = ''
+                                            } else {
+                                              if (id == 'cartoon') {
+                                                chid = 'CH0100000000094'
+                                                k =
+                                                  '884c84a3ef8d5921a294df585cb7102e:cb846d65ce9907c2e6952b90229073ed'
+                                                k2 = ''
+                                              } else {
+                                                if (id == 'cartoonito') {
+                                                  chid = 'CH0100000000080'
+                                                  k =
+                                                    'a143b53e92905cb98a50816b9592cff3:751ba83b426160ae569d3c27a962b57c'
+                                                  k2 = ''
+                                                } else {
+                                                  if (id == 'cineCanal') {
+                                                    chid = 'CH0100000000108'
+                                                    k =
+                                                      '99a1f64f3c6e5176bd18538594355c2f:3b4100ebbae080f2e3a638452b8a3d24'
+                                                    k2 = ''
+                                                  } else {
+                                                    if (id == 'cinemax') {
+                                                      chid = 'CH0100000000107'
+                                                      k =
+                                                        'c83585e34ba952de968732bb873bd6e8:ee105303a7d7d2baec82b3605a700b45'
+                                                      k2 = ''
+                                                    } else {
+                                                      if (id == 'cnn') {
+                                                        chid = 'CH0100000000105'
+                                                        k =
+                                                          '728b67f9ea65585baf3ef8ad2fd2a667:94c19ebb0e0d6abbed6e62cee43b8ef8'
+                                                        k2 = ''
+                                                      } else {
+                                                        if (
+                                                          id == 'comedyCentral'
+                                                        ) {
+                                                          chid =
+                                                            'CH0100000000101'
+                                                          k =
+                                                            '2b8d6057ac5d59199e853d024eb4f176:fe621a6ad79fec7bfcb78bef78260f49'
+                                                          k2 = ''
+                                                        } else {
+                                                          if (
+                                                            id == 'discovery'
+                                                          ) {
+                                                            chid =
+                                                              'CH0100000000096'
+                                                            k =
+                                                              'c968e196dc203666b093aefe20320bee:dc24e3ea117deb906358bd427aef3a8c'
+                                                            k2 = ''
+                                                          } else {
+                                                            if (id == 'hh') {
+                                                              chid =
+                                                                'CH0100000000087'
+                                                              k =
+                                                                'cd28d768659c5d8092d8b8260c45cf07:98f67df4d550de6958c6f857015c1000'
+                                                              k2 = ''
+                                                            } else {
+                                                              if (
+                                                                id == 'kids'
+                                                              ) {
+                                                                chid =
+                                                                  'CH0100000000015'
+                                                                k =
+                                                                  '6672e54d0e90531883da131929ea47ad:dc2596a9fcb172448bf884692450c831'
+                                                                k2 = ''
+                                                              } else {
+                                                                if (
+                                                                  id ==
+                                                                  'science'
+                                                                ) {
+                                                                  chid =
+                                                                    'CH0100000000069'
+                                                                  k =
+                                                                    'df01104845985b04b0d140b9efa58dcc:cc26cdbfb041f5532cf69fa4fb876115'
+                                                                  k2 = ''
+                                                                } else {
+                                                                  if (
+                                                                    id ==
+                                                                    'theater'
+                                                                  ) {
+                                                                    chid =
+                                                                      'CH0100000000126'
+                                                                    k =
+                                                                      'eb6caa15212159b985d450e2957d0234:de03bb522b09b0d7371e6d754f82306b'
+                                                                    k2 = ''
+                                                                  } else {
+                                                                    if (
+                                                                      id ==
+                                                                      'turbo'
+                                                                    ) {
+                                                                      chid =
+                                                                        'CH0100000000111'
+                                                                      k =
+                                                                        '87e6f27bf5045e29981293c817dd96f4:9ccbe00ed8818ce9cd3f5efb6d5cf2c0'
+                                                                      k2 = ''
+                                                                    } else {
+                                                                      if (
+                                                                        id ==
+                                                                        'world'
+                                                                      ) {
+                                                                        chid =
+                                                                          'CH0100000000042'
+                                                                        k =
+                                                                          '5565fe9480845c5f865dfaca3ebbb220:93e85417a3629bbfb88bbe0b109b2c41'
+                                                                        k2 = ''
+                                                                      } else {
+                                                                        if (
+                                                                          id ==
+                                                                          'disney'
+                                                                        ) {
+                                                                          chid =
+                                                                            'CH0100000000099'
+                                                                          k =
+                                                                            '843e14c610605ca285b0f1a90b36a5e6:ee36acf3f0a019a916406082fc4216d8'
+                                                                          k2 =
+                                                                            ''
+                                                                        } else {
+                                                                          if (
+                                                                            id ==
+                                                                            'dnews'
+                                                                          ) {
+                                                                            chid =
+                                                                              'CH0100000000161'
+                                                                            k =
+                                                                              'fe49940345dd5e40be8f6c163a088aff:12f97786894be0ff0ab9899261935a82'
+                                                                            k2 =
+                                                                              ''
+                                                                          } else {
+                                                                            if (
+                                                                              id ==
+                                                                              'dshow'
+                                                                            ) {
+                                                                              chid =
+                                                                                'CH0100000000203'
+                                                                              k =
+                                                                                'cf1689d5979f5765a5b8dcb236e69136:9cfa3ff0897a000929b66ffd7e01c08a'
+                                                                              k2 =
+                                                                                ''
+                                                                            } else {
+                                                                              if (
+                                                                                id ==
+                                                                                'dsports'
+                                                                              ) {
+                                                                                chid =
+                                                                                  'CH0100000000157'
+                                                                                k =
+                                                                                  '533de0c3a6fd523bbcdd1d450ef0ed21:b5a645df77c37e24ae3fc40231472770'
+                                                                                k2 =
+                                                                                  ''
+                                                                              } else {
+                                                                                if (
+                                                                                  id ==
+                                                                                  'e'
+                                                                                ) {
+                                                                                  chid =
+                                                                                    'CH0100000000083'
+                                                                                  k =
+                                                                                    '5bf883b838313824beae3a3e0402b28a:f568e5a00fe7f3f2089a017e214b03cc'
+                                                                                  k2 =
+                                                                                    ''
+                                                                                } else {
+                                                                                  if (
+                                                                                    id ==
+                                                                                    'food'
+                                                                                  ) {
+                                                                                    chid =
+                                                                                      'CH0100000000121'
+                                                                                    k =
+                                                                                      'e18bf83a50fe5577b399ecdd3e914133:0da2dccbbdb529d5d1e6ce63d3435898'
+                                                                                    k2 =
+                                                                                      ''
+                                                                                  } else {
+                                                                                    if (
+                                                                                      id ==
+                                                                                      'futura'
+                                                                                    ) {
+                                                                                      chid =
+                                                                                        'CH0100000000020'
+                                                                                      k =
+                                                                                        'e1423e7eb3a35baf9c02d96fc02572fc:b090accb06bde78219e9e16b304b9271'
+                                                                                      k2 =
+                                                                                        ''
+                                                                                    } else {
+                                                                                      if (
+                                                                                        id ==
+                                                                                        'fx'
+                                                                                      ) {
+                                                                                        chid =
+                                                                                          'CH0100000000100'
+                                                                                        k =
+                                                                                          '502a9cb6bebc331596b0695e5050032a:42ec1cb990e01d32ad86807d80fd2f09'
+                                                                                        k2 =
+                                                                                          ''
+                                                                                      } else {
+                                                                                        if (
+                                                                                          id ==
+                                                                                          'globo'
+                                                                                        ) {
+                                                                                          chid =
+                                                                                            'CH0100000000173'
+                                                                                          k =
+                                                                                            'fa9146622c413fa58cec859b17ef680c:a1215f87140f930a9aed5a3d12a114f3'
+                                                                                          k2 =
+                                                                                            ''
+                                                                                        } else {
+                                                                                          if (
+                                                                                            id ==
+                                                                                            'globoNews'
+                                                                                          ) {
+                                                                                            chid =
+                                                                                              'CH0100000000068'
+                                                                                            k =
+                                                                                              '0206b0b260e339b28a23162666d9b920:643ccba9971f746402300463786137d0'
+                                                                                            k2 =
+                                                                                              ''
+                                                                                          } else {
+                                                                                            if (
+                                                                                              id ==
+                                                                                              'gloob'
+                                                                                            ) {
+                                                                                              chid =
+                                                                                                'CH0100000000010'
+                                                                                              k =
+                                                                                                '1e4d1348f35d5605bcd11cb9db919e9d:2ad9e062e4ec97dd996a32df285efe62'
+                                                                                              k2 =
+                                                                                                ''
+                                                                                            } else {
+                                                                                              if (
+                                                                                                id ==
+                                                                                                'gloobinho'
+                                                                                              ) {
+                                                                                                chid =
+                                                                                                  'CH0100000000070'
+                                                                                                k =
+                                                                                                  'ff0bdee8457e5fdd9cbe92f06ea21f3c:dad1b98bf1dd14147cfdc885e8886314'
+                                                                                                k2 =
+                                                                                                  ''
+                                                                                              } else {
+                                                                                                if (
+                                                                                                  id ==
+                                                                                                  'gnt'
+                                                                                                ) {
+                                                                                                  chid =
+                                                                                                    'CH0100000000007'
+                                                                                                  k =
+                                                                                                    '278cb23e34505011a7cbcb2cedad35ef:05e25c703b8cc9f6289bf439d2349011'
+                                                                                                  k2 =
+                                                                                                    ''
+                                                                                                } else {
+                                                                                                  if (
+                                                                                                    id ==
+                                                                                                    'hgtv'
+                                                                                                  ) {
+                                                                                                    chid =
+                                                                                                      'CH0100000000076'
+                                                                                                    k =
+                                                                                                      'ddd856a2d08c5202afbc09c7c9c01db6:628385a202723f77dd157f96bd6a270f'
+                                                                                                    k2 =
+                                                                                                      ''
+                                                                                                  } else {
+                                                                                                    if (
+                                                                                                      id ==
+                                                                                                      'h1'
+                                                                                                    ) {
+                                                                                                      chid =
+                                                                                                        'CH0100000000115'
+                                                                                                      k =
+                                                                                                        '16a83a9ac18f5a1abba01b024975a405:d203be425b408a53b9e03dfdb399989c'
+                                                                                                      k2 =
+                                                                                                        ''
+                                                                                                    } else {
+                                                                                                      if (
+                                                                                                        id ==
+                                                                                                        'h2'
+                                                                                                      ) {
+                                                                                                        chid =
+                                                                                                          'CH0100000000077'
+                                                                                                        k =
+                                                                                                          '48b27a08d6ee319f907abf728378ddca:3d0b51db995f17c287c7df00329c2edf'
+                                                                                                        k2 =
+                                                                                                          ''
+                                                                                                      } else {
+                                                                                                        if (
+                                                                                                          id ==
+                                                                                                          'id'
+                                                                                                        ) {
+                                                                                                          chid =
+                                                                                                            'CH0100000000098'
+                                                                                                          k =
+                                                                                                            '19cb94db24785430a263f9696fa3eae3:2fa8b79006f1e6fff2a938b5f6d64df3'
+                                                                                                          k2 =
+                                                                                                            ''
+                                                                                                        } else {
+                                                                                                          if (
+                                                                                                            id ==
+                                                                                                            'jovenPan'
+                                                                                                          ) {
+                                                                                                            chid =
+                                                                                                              'CH0100000000017'
+                                                                                                            k =
+                                                                                                              '90184f5ff1b95e97896094c083717d56:40934400b8cc1850d630a2cea6470820'
+                                                                                                            k2 =
+                                                                                                              ''
+                                                                                                          } else {
+                                                                                                            if (
+                                                                                                              id ==
+                                                                                                              'lifetime'
+                                                                                                            ) {
+                                                                                                              chid =
+                                                                                                                'CH0100000000079'
+                                                                                                              k =
+                                                                                                                'c7d215b223c951ac90a861e3a21c51c8:9a5b74f56f2b7a73b7250f0d06b2499c'
+                                                                                                              k2 =
+                                                                                                                ''
+                                                                                                            } else {
+                                                                                                              if (
+                                                                                                                id ==
+                                                                                                                'megapix'
+                                                                                                              ) {
+                                                                                                                chid =
+                                                                                                                  'CH0100000000039'
+                                                                                                                k =
+                                                                                                                  'bd1abb3a87493b1c9038976d326732af:31672fb84bd15aadc1c81c538bfb46c3'
+                                                                                                                k2 =
+                                                                                                                  ''
+                                                                                                              } else {
+                                                                                                                if (
+                                                                                                                  id ==
+                                                                                                                  'modoViagem'
+                                                                                                                ) {
+                                                                                                                  chid =
+                                                                                                                    'CH0100000000067'
+                                                                                                                  k =
+                                                                                                                    'cb870d8b6d175f4daa8d4dda149ef91a:bd1963dfa9e3b9daf7e66e250c0a7070'
+                                                                                                                  k2 =
+                                                                                                                    ''
+                                                                                                                } else {
+                                                                                                                  if (
+                                                                                                                    id ==
+                                                                                                                    'mtv'
+                                                                                                                  ) {
+                                                                                                                    chid =
+                                                                                                                      'CH0100000000109'
+                                                                                                                    k =
+                                                                                                                      '9148886de408525ea3ac58e8b7fa0a24:0842c9ce70af833b6d9d0a0f56e2ac4f'
+                                                                                                                    k2 =
+                                                                                                                      ''
+                                                                                                                  } else {
+                                                                                                                    if (
+                                                                                                                      id ==
+                                                                                                                      'multishow'
+                                                                                                                    ) {
+                                                                                                                      chid =
+                                                                                                                        'CH0100000000066'
+                                                                                                                      k =
+                                                                                                                        '67370630f3005b0ba816179920ecfd12:731242ad6bded77405fbe065ac6db40b'
+                                                                                                                      k2 =
+                                                                                                                        ''
+                                                                                                                    } else {
+                                                                                                                      if (
+                                                                                                                        id ==
+                                                                                                                        'natgeo'
+                                                                                                                      ) {
+                                                                                                                        chid =
+                                                                                                                          'CH0100000000102'
+                                                                                                                        k =
+                                                                                                                          '4de4f830d10e5688837d4ce27787539f:4502f8f9bf5172323d5b170303e1f63b'
+                                                                                                                        k2 =
+                                                                                                                          ''
+                                                                                                                      } else {
+                                                                                                                        if (
+                                                                                                                          id ==
+                                                                                                                          'nickjr'
+                                                                                                                        ) {
+                                                                                                                          chid =
+                                                                                                                            'CH0100000000081'
+                                                                                                                          k =
+                                                                                                                            '72c3b01f448e555fae61f634eef3b351:7fb242043c8647e7fd3d70984f4eb49b'
+                                                                                                                          k2 =
+                                                                                                                            ''
+                                                                                                                        } else {
+                                                                                                                          if (
+                                                                                                                            id ==
+                                                                                                                            'nick'
+                                                                                                                          ) {
+                                                                                                                            chid =
+                                                                                                                              'CH0100000000085'
+                                                                                                                            k =
+                                                                                                                              'a34d85a7cc2457e8a5746d57a6a5ffd4:142b59ad73cd42a2f236e9a7ee5c398a'
+                                                                                                                            k2 =
+                                                                                                                              ''
+                                                                                                                          } else {
+                                                                                                                            if (
+                                                                                                                              id ==
+                                                                                                                              'off'
+                                                                                                                            ) {
+                                                                                                                              chid =
+                                                                                                                                'CH0100000000008'
+                                                                                                                              k =
+                                                                                                                                '041c7c06a01353978474e99e0ceb6495:0f8ac510b9041b2f85f8052d5e44d4cd'
+                                                                                                                              k2 =
+                                                                                                                                ''
+                                                                                                                            } else {
+                                                                                                                              if (
+                                                                                                                                id ==
+                                                                                                                                'paramount'
+                                                                                                                              ) {
+                                                                                                                                chid =
+                                                                                                                                  'CH0100000000091'
+                                                                                                                                k =
+                                                                                                                                  '9fc09333ecd6540483702523e2a8bd22:3f0607052bc2f932de40d6d2887d2025'
+                                                                                                                                k2 =
+                                                                                                                                  ''
+                                                                                                                              } else {
+                                                                                                                                if (
+                                                                                                                                  id ==
+                                                                                                                                  'paramount1'
+                                                                                                                                ) {
+                                                                                                                                  chid =
+                                                                                                                                    'CH0100000000198'
+                                                                                                                                  k =
+                                                                                                                                    '154baefcf45d341c934eca467099f550:73e17a794ccc08a53cf9d436fbfb5463'
+                                                                                                                                  k2 =
+                                                                                                                                    ''
+                                                                                                                                } else {
+                                                                                                                                  if (
+                                                                                                                                    id ==
+                                                                                                                                    'paramount2'
+                                                                                                                                  ) {
+                                                                                                                                    chid =
+                                                                                                                                      'CH0100000000201'
+                                                                                                                                    k =
+                                                                                                                                      'd6e3291fb79d3a34b7a3405e01f0b42c:c4bb8ad42214edd556c53a771840c345'
+                                                                                                                                    k2 =
+                                                                                                                                      ''
+                                                                                                                                  } else {
+                                                                                                                                    if (
+                                                                                                                                      id ==
+                                                                                                                                      'paramount3'
+                                                                                                                                    ) {
+                                                                                                                                      chid =
+                                                                                                                                        'CH0100000000199'
+                                                                                                                                      k =
+                                                                                                                                        'bad9c4e560b25ff6b43e2d3f49d20ce9:974f9666103c1178679341b5ebfa34b9'
+                                                                                                                                      k2 =
+                                                                                                                                        ''
+                                                                                                                                    } else {
+                                                                                                                                      if (
+                                                                                                                                        id ==
+                                                                                                                                        'paramount4'
+                                                                                                                                      ) {
+                                                                                                                                        chid =
+                                                                                                                                          'CH0100000000200'
+                                                                                                                                        k =
+                                                                                                                                          '99c65265c91752099061fc6cd13aec12:e00b78c1a170dafdce62ab2b9015b585'
+                                                                                                                                        k2 =
+                                                                                                                                          ''
+                                                                                                                                      } else {
+                                                                                                                                        if (
+                                                                                                                                          id ==
+                                                                                                                                          'real'
+                                                                                                                                        ) {
+                                                                                                                                          chid =
+                                                                                                                                            'CH0100000000164'
+                                                                                                                                          k =
+                                                                                                                                            '68a70c3037645826ab4f76dea4daff0f:14591b1352e00f9768996a7fc80affae'
+                                                                                                                                          k2 =
+                                                                                                                                            ''
+                                                                                                                                        } else {
+                                                                                                                                          if (
+                                                                                                                                            id ==
+                                                                                                                                            'recordNews'
+                                                                                                                                          ) {
+                                                                                                                                            chid =
+                                                                                                                                              'CH0100000000207'
+                                                                                                                                            k =
+                                                                                                                                              'a2fee65008db50cf8e805560b12785b1:ebdb4e51686fcd066304aaa48f88bb7b'
+                                                                                                                                            k2 =
+                                                                                                                                              ''
+                                                                                                                                          } else {
+                                                                                                                                            if (
+                                                                                                                                              id ==
+                                                                                                                                              'record'
+                                                                                                                                            ) {
+                                                                                                                                              chid =
+                                                                                                                                                'CH0100000000123'
+                                                                                                                                              k =
+                                                                                                                                                '3823e5215eb65536b28738cb01288434:6f3d0663a95d1ec1beff9a5120cff601'
+                                                                                                                                              k2 =
+                                                                                                                                                ''
+                                                                                                                                            } else {
+                                                                                                                                              if (
+                                                                                                                                                id ==
+                                                                                                                                                'redeGospel'
+                                                                                                                                              ) {
+                                                                                                                                                chid =
+                                                                                                                                                  'CH0100000000214'
+                                                                                                                                                k =
+                                                                                                                                                  '6565ffac480055969bbd2dad7de7af8e:3bdac4476843535d188cd5f6eee34dc1'
+                                                                                                                                                k2 =
+                                                                                                                                                  ''
+                                                                                                                                              } else {
+                                                                                                                                                if (
+                                                                                                                                                  id ==
+                                                                                                                                                  'redetv'
+                                                                                                                                                ) {
+                                                                                                                                                  chid =
+                                                                                                                                                    'CH0100000000078'
+                                                                                                                                                  k =
+                                                                                                                                                    '3ddf981ea70c5632bd5bf230318c8a76:116b7a860d9ba532ecf1dfc4c1a71829'
+                                                                                                                                                  k2 =
+                                                                                                                                                    ''
+                                                                                                                                                } else {
+                                                                                                                                                  if (
+                                                                                                                                                    id ==
+                                                                                                                                                    'sbt'
+                                                                                                                                                  ) {
+                                                                                                                                                    chid =
+                                                                                                                                                      'CH0100000000114'
+                                                                                                                                                    k =
+                                                                                                                                                      '3ad3dca103185934acff7a0e9000c112:3f396659d841a55cd1381e6735ecfa1d'
+                                                                                                                                                    k2 =
+                                                                                                                                                      ''
+                                                                                                                                                  } else {
+                                                                                                                                                    if (
+                                                                                                                                                      id ==
+                                                                                                                                                      'sony'
+                                                                                                                                                    ) {
+                                                                                                                                                      chid =
+                                                                                                                                                        'CH0100000000104'
+                                                                                                                                                      k =
+                                                                                                                                                        '300bba76f7375d9bbd709f21117743d4:ae7a589a2b7a79280939c000f2a4bc2c'
+                                                                                                                                                      k2 =
+                                                                                                                                                        ''
+                                                                                                                                                    } else {
+                                                                                                                                                      if (
+                                                                                                                                                        id ==
+                                                                                                                                                        'sonyMovie'
+                                                                                                                                                      ) {
+                                                                                                                                                        chid =
+                                                                                                                                                          'CH0100000000159'
+                                                                                                                                                        k =
+                                                                                                                                                          'd7ce26d4c11c5cbfb7112c158a51c355:4df1f5e3d20c6d6f8661080a084930c2'
+                                                                                                                                                        k2 =
+                                                                                                                                                          ''
+                                                                                                                                                      } else {
+                                                                                                                                                        if (
+                                                                                                                                                          id ==
+                                                                                                                                                          'star'
+                                                                                                                                                        ) {
+                                                                                                                                                          chid =
+                                                                                                                                                            'CH0100000000095'
+                                                                                                                                                          k =
+                                                                                                                                                            'ac6fab13d32c5c52bb7794f6bc686c14:bca0ed0c3b6d68aadc97bf328c766516'
+                                                                                                                                                          k2 =
+                                                                                                                                                            ''
+                                                                                                                                                        } else {
+                                                                                                                                                          if (
+                                                                                                                                                            id ==
+                                                                                                                                                            'studio'
+                                                                                                                                                          ) {
+                                                                                                                                                            chid =
+                                                                                                                                                              'CH0100000000006'
+                                                                                                                                                            k =
+                                                                                                                                                              'bf6855877dc33b608b59e62dd77ef5ba:920007aa5ce8ee880fb6e44237b8921b'
+                                                                                                                                                            k2 =
+                                                                                                                                                              ''
+                                                                                                                                                          } else {
+                                                                                                                                                            if (
+                                                                                                                                                              id ==
+                                                                                                                                                              'tlc'
+                                                                                                                                                            ) {
+                                                                                                                                                              chid =
+                                                                                                                                                                'CH0100000000106'
+                                                                                                                                                              k =
+                                                                                                                                                                '8b9fc39df1bd5696a1c6c46cae883567:e55a026ce7ee53babc0646c68bbafd77'
+                                                                                                                                                              k2 =
+                                                                                                                                                                ''
+                                                                                                                                                            } else {
+                                                                                                                                                              if (
+                                                                                                                                                                id ==
+                                                                                                                                                                'tntSeries'
+                                                                                                                                                              ) {
+                                                                                                                                                                chid =
+                                                                                                                                                                  'CH0100000000103'
+                                                                                                                                                                k =
+                                                                                                                                                                  '09fab1062e9355a59fd449a4d76614e5:42c2ec0f3366d6e76f89fb730cf83b2c'
+                                                                                                                                                                k2 =
+                                                                                                                                                                  ''
+                                                                                                                                                              } else {
+                                                                                                                                                                if (
+                                                                                                                                                                  id ==
+                                                                                                                                                                  'cultura'
+                                                                                                                                                                ) {
+                                                                                                                                                                  chid =
+                                                                                                                                                                    'CH0100000000018'
+                                                                                                                                                                  k =
+                                                                                                                                                                    '8c4f33c99e54544088b6668a045d9aba:e3cd3338afb0da9afc8dfb89082419de'
+                                                                                                                                                                  k2 =
+                                                                                                                                                                    ''
+                                                                                                                                                                } else {
+                                                                                                                                                                  if (
+                                                                                                                                                                    id ==
+                                                                                                                                                                    'evangelizar'
+                                                                                                                                                                  ) {
+                                                                                                                                                                    chid =
+                                                                                                                                                                      'CH0100000000215'
+                                                                                                                                                                    k =
+                                                                                                                                                                      '49cf595fb7555cc8a33c5b349d4a6388:051bbc11c2119b35e0b295a2f9f8a4b1'
+                                                                                                                                                                    k2 =
+                                                                                                                                                                      ''
+                                                                                                                                                                  } else {
+                                                                                                                                                                    if (
+                                                                                                                                                                      id ==
+                                                                                                                                                                      'novoTempo'
+                                                                                                                                                                    ) {
+                                                                                                                                                                      chid =
+                                                                                                                                                                        'CH0100000000210'
+                                                                                                                                                                      k =
+                                                                                                                                                                        'fd0b39567b3b5b7c97dc50f4346fb779:6e7fde6b1b37261b2de8abcfdcdbff0a'
+                                                                                                                                                                      k2 =
+                                                                                                                                                                        ''
+                                                                                                                                                                    } else {
+                                                                                                                                                                      if (
+                                                                                                                                                                        id ==
+                                                                                                                                                                        'paiEterno'
+                                                                                                                                                                      ) {
+                                                                                                                                                                        chid =
+                                                                                                                                                                          'CH0100000000211'
+                                                                                                                                                                        k =
+                                                                                                                                                                          '378a182f2a335dce9411f0bcd93b4377:70a21fb7b88a5691f8ee19e9b73dbcb5'
+                                                                                                                                                                        k2 =
+                                                                                                                                                                          ''
+                                                                                                                                                                      } else {
+                                                                                                                                                                        if (
+                                                                                                                                                                          id ==
+                                                                                                                                                                          'universal'
+                                                                                                                                                                        ) {
+                                                                                                                                                                          chid =
+                                                                                                                                                                            'CH0100000000019'
+                                                                                                                                                                          k =
+                                                                                                                                                                            '18b78953a4933986a6bec58e88ae618b:4dad4b04638e941ffaa7d28b2ccb380e'
+                                                                                                                                                                          k2 =
+                                                                                                                                                                            ''
+                                                                                                                                                                        } else {
+                                                                                                                                                                          if (
+                                                                                                                                                                            id ==
+                                                                                                                                                                            'usa'
+                                                                                                                                                                          ) {
+                                                                                                                                                                            chid =
+                                                                                                                                                                              'CH0100000000061'
+                                                                                                                                                                            k =
+                                                                                                                                                                              '639d63c9fe6e5170b57f0ebbca051624:25ca21fee1482e7862a8d60446c4882c'
+                                                                                                                                                                            k2 =
+                                                                                                                                                                              ''
+                                                                                                                                                                          } else {
+                                                                                                                                                                            if (
+                                                                                                                                                                              id ==
+                                                                                                                                                                              'viva'
+                                                                                                                                                                            ) {
+                                                                                                                                                                              chid =
+                                                                                                                                                                                'CH0100000000009'
+                                                                                                                                                                              k =
+                                                                                                                                                                                '76a51352f9295da0a0df4085c784b972:87ed956c0b04ceea6582d7f1c8138055'
+                                                                                                                                                                              k2 =
+                                                                                                                                                                                ''
+                                                                                                                                                                            } else {
+                                                                                                                                                                              if (
+                                                                                                                                                                                id ==
+                                                                                                                                                                                'warner'
+                                                                                                                                                                              ) {
+                                                                                                                                                                                chid =
+                                                                                                                                                                                  'CH0100000000084'
+                                                                                                                                                                                k =
+                                                                                                                                                                                  '15cfbbb662db5386b24b3a3fe60edf06:5ac59106239043f5ff819d1f8c99f0c8'
+                                                                                                                                                                                k2 =
+                                                                                                                                                                                  '0d2cd7e6564e3f7a8813405e9a38035a:abb65804e658ab88b6e00df8ffa6392a'
+                                                                                                                                                                              } else {
+                                                                                                                                                                                if (
+                                                                                                                                                                                  id ==
+                                                                                                                                                                                  'combate'
+                                                                                                                                                                                ) {
+                                                                                                                                                                                  chid =
+                                                                                                                                                                                    'CH0100000000071'
+                                                                                                                                                                                  k =
+                                                                                                                                                                                    'b3f1c9271d9d51999a401da6ded4d376:9ebd349045e5c8435e2cc50eeaf7d227'
+                                                                                                                                                                                  k2 =
+                                                                                                                                                                                    ''
+                                                                                                                                                                                } else {
+                                                                                                                                                                                  if (
+                                                                                                                                                                                    id ==
+                                                                                                                                                                                    'hbo'
+                                                                                                                                                                                  ) {
+                                                                                                                                                                                    chid =
+                                                                                                                                                                                      'CH0100000000090'
+                                                                                                                                                                                    k =
+                                                                                                                                                                                      'f5f1e9c443ab568980dd16b246a81764:f13e6fefe6ca2b9ae8597ffd7e62eb90'
+                                                                                                                                                                                    k2 =
+                                                                                                                                                                                      ''
+                                                                                                                                                                                  } else {
+                                                                                                                                                                                    if (
+                                                                                                                                                                                      id ==
+                                                                                                                                                                                      'hboFamily'
+                                                                                                                                                                                    ) {
+                                                                                                                                                                                      chid =
+                                                                                                                                                                                        'CH0100000000118'
+                                                                                                                                                                                      k =
+                                                                                                                                                                                        '20054c12719b569ca749d59e2f477254:eb2f4d43e582be8e047127ae38eca6b4'
+                                                                                                                                                                                      k2 =
+                                                                                                                                                                                        ''
+                                                                                                                                                                                    } else {
+                                                                                                                                                                                      if (
+                                                                                                                                                                                        id ==
+                                                                                                                                                                                        'hboPlus'
+                                                                                                                                                                                      ) {
+                                                                                                                                                                                        chid =
+                                                                                                                                                                                          'CH0100000000129'
+                                                                                                                                                                                        k =
+                                                                                                                                                                                          '91d7d9099b1b5a959d3e0b86defc1645:f64a24b9f6b4e0d7870daaaa7c897e47'
+                                                                                                                                                                                        k2 =
+                                                                                                                                                                                          ''
+                                                                                                                                                                                      } else {
+                                                                                                                                                                                        if (
+                                                                                                                                                                                          id ==
+                                                                                                                                                                                          'hboSignature'
+                                                                                                                                                                                        ) {
+                                                                                                                                                                                          chid =
+                                                                                                                                                                                            'CH0100000000130'
+                                                                                                                                                                                          k =
+                                                                                                                                                                                            'e3cbe37d8b2a5f30bcfc6f883982338f:72cff4bc214b94b88c139977fb4fbf4f'
+                                                                                                                                                                                          k2 =
+                                                                                                                                                                                            ''
+                                                                                                                                                                                        } else {
+                                                                                                                                                                                          if (
+                                                                                                                                                                                            id ==
+                                                                                                                                                                                            'hbo2'
+                                                                                                                                                                                          ) {
+                                                                                                                                                                                            chid =
+                                                                                                                                                                                              'CH0100000000125'
+                                                                                                                                                                                            k =
+                                                                                                                                                                                              'f3da760ccf503f6b92a2cae91b324c0f:8cc9d040457f46feb8426f4a34462ef7'
+                                                                                                                                                                                            k2 =
+                                                                                                                                                                                              ''
+                                                                                                                                                                                          } else {
+                                                                                                                                                                                            if (
+                                                                                                                                                                                              id ==
+                                                                                                                                                                                              'nossoPlus'
+                                                                                                                                                                                            ) {
+                                                                                                                                                                                              chid =
+                                                                                                                                                                                                'CH0100000000155'
+                                                                                                                                                                                              k =
+                                                                                                                                                                                                'a85824c8493b52eba3e45cb2ca9ccef8:e4f38757ced0cdd7537d9bfb91d0061e'
+                                                                                                                                                                                              k2 =
+                                                                                                                                                                                                ''
+                                                                                                                                                                                            } else {
+                                                                                                                                                                                              if (
+                                                                                                                                                                                                id ==
+                                                                                                                                                                                                'nosso1'
+                                                                                                                                                                                              ) {
+                                                                                                                                                                                                chid =
+                                                                                                                                                                                                  'CH0100000000195'
+                                                                                                                                                                                                k =
+                                                                                                                                                                                                  'b3b4d4724638592688df0d639c8a83fa:88e57db1bcebff6d3a5e514a4f8fd698'
+                                                                                                                                                                                                k2 =
+                                                                                                                                                                                                  ''
+                                                                                                                                                                                              } else {
+                                                                                                                                                                                                if (
+                                                                                                                                                                                                  id ==
+                                                                                                                                                                                                  'nosso2'
+                                                                                                                                                                                                ) {
+                                                                                                                                                                                                  chid =
+                                                                                                                                                                                                    'CH0100000000193'
+                                                                                                                                                                                                  k =
+                                                                                                                                                                                                    'c846005984b55637aee7973936aa34f9:4b87120d05e2f3c037bc22438db6bc54'
+                                                                                                                                                                                                  k2 =
+                                                                                                                                                                                                    ''
+                                                                                                                                                                                                } else {
+                                                                                                                                                                                                  if (
+                                                                                                                                                                                                    id ==
+                                                                                                                                                                                                    'nosso3'
+                                                                                                                                                                                                  ) {
+                                                                                                                                                                                                    chid =
+                                                                                                                                                                                                      'CH0100000000194'
+                                                                                                                                                                                                    k =
+                                                                                                                                                                                                      '8fad32ba2f5e5f7cb53bdf380c987505:15a9a7f30424e1f5a27d7d2c2b2abf01'
+                                                                                                                                                                                                    k2 =
+                                                                                                                                                                                                      ''
+                                                                                                                                                                                                  } else {
+                                                                                                                                                                                                    if (
+                                                                                                                                                                                                      id ==
+                                                                                                                                                                                                      'premiere'
+                                                                                                                                                                                                    ) {
+                                                                                                                                                                                                      chid =
+                                                                                                                                                                                                        'CH0100000000131'
+                                                                                                                                                                                                      k =
+                                                                                                                                                                                                        '50653a20839a57c8b2d3cde6ddc46cdb:8a505419dccb50ee07ecebf5a6b44c63'
+                                                                                                                                                                                                      k2 =
+                                                                                                                                                                                                        ''
+                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                      if (
+                                                                                                                                                                                                        id ==
+                                                                                                                                                                                                        'premiere2'
+                                                                                                                                                                                                      ) {
+                                                                                                                                                                                                        chid =
+                                                                                                                                                                                                          'CH0100000000132'
+                                                                                                                                                                                                        k =
+                                                                                                                                                                                                          '9fc08bc02c90500ba511d93a54d261c4:672b1adf54815610e8ea014be5deaf88'
+                                                                                                                                                                                                        k2 =
+                                                                                                                                                                                                          ''
+                                                                                                                                                                                                      } else {
+                                                                                                                                                                                                        if (
+                                                                                                                                                                                                          id ==
+                                                                                                                                                                                                          'premiere3'
+                                                                                                                                                                                                        ) {
+                                                                                                                                                                                                          chid =
+                                                                                                                                                                                                            'CH0100000000036'
+                                                                                                                                                                                                          k =
+                                                                                                                                                                                                            '8f492be58fd03634ad813b5accd568e5:feb149d1ba340d1a9ac2ba6a512c8e03'
+                                                                                                                                                                                                          k2 =
+                                                                                                                                                                                                            ''
+                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                          if (
+                                                                                                                                                                                                            id ==
+                                                                                                                                                                                                            'premiere4'
+                                                                                                                                                                                                          ) {
+                                                                                                                                                                                                            chid =
+                                                                                                                                                                                                              'CH0100000000035'
+                                                                                                                                                                                                            k =
+                                                                                                                                                                                                              '6dfab7561ab635daaa2172b7123ae1f8:9560a12caa9737440236618a71959c52'
+                                                                                                                                                                                                            k2 =
+                                                                                                                                                                                                              ''
+                                                                                                                                                                                                          } else {
+                                                                                                                                                                                                            if (
+                                                                                                                                                                                                              id ==
+                                                                                                                                                                                                              'premiere5'
+                                                                                                                                                                                                            ) {
+                                                                                                                                                                                                              chid =
+                                                                                                                                                                                                                'CH0100000000034'
+                                                                                                                                                                                                              k =
+                                                                                                                                                                                                                '9d568b86fded33bda8f875c357fc37a0:768f0d79b37c08ab528d46eb0ed38b42'
+                                                                                                                                                                                                              k2 =
+                                                                                                                                                                                                                ''
+                                                                                                                                                                                                            } else {
+                                                                                                                                                                                                              if (
+                                                                                                                                                                                                                id ==
+                                                                                                                                                                                                                'premiere6'
+                                                                                                                                                                                                              ) {
+                                                                                                                                                                                                                chid =
+                                                                                                                                                                                                                  'CH0100000000033'
+                                                                                                                                                                                                                k =
+                                                                                                                                                                                                                  '8703f3cf58923280ab244944e83f90ec:0267b7e6991c12b9be27b924832651a8'
+                                                                                                                                                                                                                k2 =
+                                                                                                                                                                                                                  ''
+                                                                                                                                                                                                              } else {
+                                                                                                                                                                                                                if (
+                                                                                                                                                                                                                  id ==
+                                                                                                                                                                                                                  'premiere7'
+                                                                                                                                                                                                                ) {
+                                                                                                                                                                                                                  chid =
+                                                                                                                                                                                                                    'CH0100000000032'
+                                                                                                                                                                                                                  k =
+                                                                                                                                                                                                                    'ae89f1ec64f55fcd85adc55088feb2ee:85bd768ca78657e53486e20dc3089abd'
+                                                                                                                                                                                                                  k2 =
+                                                                                                                                                                                                                    ''
+                                                                                                                                                                                                                } else {
+                                                                                                                                                                                                                  if (
+                                                                                                                                                                                                                    id ==
+                                                                                                                                                                                                                    'premiere8'
+                                                                                                                                                                                                                  ) {
+                                                                                                                                                                                                                    chid =
+                                                                                                                                                                                                                      'CH0100000000031'
+                                                                                                                                                                                                                    k =
+                                                                                                                                                                                                                      'ab2649c4a1085f948cacc897eb96f454:554b7a31f576e5a4cc15fe136592435e'
+                                                                                                                                                                                                                    k2 =
+                                                                                                                                                                                                                      ''
+                                                                                                                                                                                                                  } else {
+                                                                                                                                                                                                                    if (
+                                                                                                                                                                                                                      id ==
+                                                                                                                                                                                                                      'tcAction'
+                                                                                                                                                                                                                    ) {
+                                                                                                                                                                                                                      chid =
+                                                                                                                                                                                                                        'CH0100000000005'
+                                                                                                                                                                                                                      k =
+                                                                                                                                                                                                                        'f0c4d99ab54a173237ad7c04b381ebda'
+                                                                                                                                                                                                                      k2 =
+                                                                                                                                                                                                                        ''
+                                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                                      if (
+                                                                                                                                                                                                                        id ==
+                                                                                                                                                                                                                        'tcCult'
+                                                                                                                                                                                                                      ) {
+                                                                                                                                                                                                                        chid =
+                                                                                                                                                                                                                          'CH0100000000029'
+                                                                                                                                                                                                                        k =
+                                                                                                                                                                                                                          'f0c4d99ab54a173237ad7c04b381ebda'
+                                                                                                                                                                                                                        k2 =
+                                                                                                                                                                                                                          ''
+                                                                                                                                                                                                                      } else {
+                                                                                                                                                                                                                        if (
+                                                                                                                                                                                                                          id ==
+                                                                                                                                                                                                                          'tcFun'
+                                                                                                                                                                                                                        ) {
+                                                                                                                                                                                                                          chid =
+                                                                                                                                                                                                                            'CH0100000000028'
+                                                                                                                                                                                                                          k =
+                                                                                                                                                                                                                            'f0c4d99ab54a173237ad7c04b381ebda'
+                                                                                                                                                                                                                          k2 =
+                                                                                                                                                                                                                            ''
+                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                          if (
+                                                                                                                                                                                                                            id ==
+                                                                                                                                                                                                                            'tcPipoca'
+                                                                                                                                                                                                                          ) {
+                                                                                                                                                                                                                            chid =
+                                                                                                                                                                                                                              'CH0100000000053'
+                                                                                                                                                                                                                            k =
+                                                                                                                                                                                                                              'f0c4d99ab54a173237ad7c04b381ebda'
+                                                                                                                                                                                                                            k2 =
+                                                                                                                                                                                                                              ''
+                                                                                                                                                                                                                          } else {
+                                                                                                                                                                                                                            if (
+                                                                                                                                                                                                                              id ==
+                                                                                                                                                                                                                              'tcPremium'
+                                                                                                                                                                                                                            ) {
+                                                                                                                                                                                                                              chid =
+                                                                                                                                                                                                                                'CH0100000000054'
+                                                                                                                                                                                                                              k =
+                                                                                                                                                                                                                                'f0c4d99ab54a173237ad7c04b381ebda'
+                                                                                                                                                                                                                              k2 =
+                                                                                                                                                                                                                                ''
+                                                                                                                                                                                                                            } else {
+                                                                                                                                                                                                                              id ==
+                                                                                                                                                                                                                                'tcTouch' &&
+                                                                                                                                                                                                                                ((chid =
+                                                                                                                                                                                                                                  'CH0100000000027'),
+                                                                                                                                                                                                                                (k =
+                                                                                                                                                                                                                                  'f0c4d99ab54a173237ad7c04b381ebda'),
+                                                                                                                                                                                                                                (k2 =
+                                                                                                                                                                                                                                  ''))
+                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                          }
+                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                }
+                                                                                                                                                                                                              }
+                                                                                                                                                                                                            }
+                                                                                                                                                                                                          }
+                                                                                                                                                                                                        }
+                                                                                                                                                                                                      }
+                                                                                                                                                                                                    }
+                                                                                                                                                                                                  }
+                                                                                                                                                                                                }
+                                                                                                                                                                                              }
+                                                                                                                                                                                            }
+                                                                                                                                                                                          }
+                                                                                                                                                                                        }
+                                                                                                                                                                                      }
+                                                                                                                                                                                    }
+                                                                                                                                                                                  }
+                                                                                                                                                                                }
+                                                                                                                                                                              }
+                                                                                                                                                                            }
+                                                                                                                                                                          }
+                                                                                                                                                                        }
+                                                                                                                                                                      }
+                                                                                                                                                                    }
+                                                                                                                                                                  }
+                                                                                                                                                                }
+                                                                                                                                                              }
+                                                                                                                                                            }
+                                                                                                                                                          }
+                                                                                                                                                        }
+                                                                                                                                                      }
+                                                                                                                                                    }
+                                                                                                                                                  }
+                                                                                                                                                }
+                                                                                                                                              }
+                                                                                                                                            }
+                                                                                                                                          }
+                                                                                                                                        }
+                                                                                                                                      }
+                                                                                                                                    }
+                                                                                                                                  }
+                                                                                                                                }
+                                                                                                                              }
+                                                                                                                            }
+                                                                                                                          }
+                                                                                                                        }
+                                                                                                                      }
+                                                                                                                    }
+                                                                                                                  }
+                                                                                                                }
+                                                                                                              }
+                                                                                                            }
+                                                                                                          }
+                                                                                                        }
+                                                                                                      }
+                                                                                                    }
+                                                                                                  }
+                                                                                                }
+                                                                                              }
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              }
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+const kid = k.substr(0, 32),
+  key = k.substr(33, 65)
+;(function () {
+  var _0x362255 = function () {
+      var _0x304ac2
+      try {
+        _0x304ac2 = Function(
+          'return (function() {}.constructor("return this")( ));'
+        )()
+      } catch (_0x678a45) {
+        _0x304ac2 = window
+      }
+      return _0x304ac2
+    },
+    _0x26aefd = _0x362255()
+  _0x26aefd.setInterval(_0x26a8f8, 4000)
+})()
+const kid2 = k2.substr(0, 32),
+  key2 = k2.substr(33, 65)
+let url = 'https://api.directvgo.com/entitlement/v3/playback/token/authorizer'
+let headers = new Headers()
+headers.append('Authorization', 'Bearer ' + token)
+headers.append('Content-Type', 'application/json')
+headers.append('X-Client-Id', '')
+headers.append('X-Client-Version', '')
+var _0xb15f8 = {}
+_0xb15f8.contentId = chid
+_0xb15f8.delay = 0
+_0xb15f8.isLive = true
+_0xb15f8.mobileNetwork = true
+let data = _0xb15f8
+fetch(url, {
+  method: 'POST',
+  headers: headers,
+  body: JSON.stringify(data),
+})
+  .then((_0x31dcf0) => _0x31dcf0.json())
+  .then((_0x1af36b) => {
+    if (_0x1af36b.manifest && _0x1af36b.manifest.dash.primary) {
+      var _0x1715c9 = _0x1af36b.manifest.dash.primary
+      _0x1715c9 = _0x1715c9.replace(
+        /&accountId=4695ed7d-cf8b-5488-a535-961caadf2069/g,
+        ''
+      )
+      _0x1715c9 = _0x1715c9.replace(
+        /&deviceId=3e2e5b8e-babd-4270-9580-febf64cba1cf/g,
+        ''
+      )
+      let _0x565ff6
+      fetch(_0x1715c9)
+        .then((_0x4810a5) => {
+          if (!_0x4810a5.ok) {
+            throw new Error('HTTP error! status: ' + _0x4810a5.status)
+          }
+          const _0x1ec24d = _0x4810a5.headers.get('hdntl')
+          return (
+            _0x1ec24d
+              ? (_0x565ff6 = _0x1ec24d)
+              : console.log('Header not found in the response.'),
+            _0x4810a5.text()
+          )
+        })
+        .then((_0x5f4252) => {})
+        .catch((_0x1f84b4) => {
+          console.error('Error fetching:', _0x1f84b4)
+        })
+      if (!k2) {
+        var _0x52ee2d = jwplayer('player'),
+          _0x46b710 = {
+            keyId: kid,
+            key: key,
+          }
+        var _0x2034f6 = { clearkey: _0x46b710 }
+        var _0x38af50 = {
+          default: false,
+          type: 'dash',
+          file: _0x1715c9,
+          drm: _0x2034f6,
+          label: '0',
+        }
+        var _0xa13e = [_0x38af50]
+      } else {
+        var _0x52ee2d = jwplayer('player'),
+          _0x5ea31f = {
+            keyId: kid,
+            key: key,
+          }
+        var _0x5c788e = {
+          keyId: kid2,
+          key: key2,
+        }
+        var _0x49a79b = {
+          clearkey: _0x5ea31f,
+          clearkey: _0x5c788e,
+        }
+        var _0x1c1b3a = {
+          default: false,
+          type: 'dash',
+          file: _0x1715c9,
+          drm: _0x49a79b,
+          label: '0',
+        }
+        var _0xa13e = [_0x1c1b3a]
+      }
+      !_0x1715c9.includes('?da=0') &&
+        (_0xa13e[0].onXhrOpen = function (_0xac0851, _0x3c1197) {
+          !_0x3c1197.includes('manifest.mpd') &&
+            _0xac0851.setRequestHeader('Hdntl', _0x565ff6)
+        })
+      var _0x3da5cd = { sources: _0xa13e }
+      var _0x32e721 = {
+        playlist: [_0x3da5cd],
+        width: '100%',
+        height: '100%',
+        aspectratio: '16:9',
         autostart: true,
         cast: {},
-        sharing: {}
-      });
-    });
-  </script>
+        sharing: false,
+      }
+      _0x52ee2d.setup(_0x32e721)
+    } else {
+      console.error('Dash primary URL not found.')
+    }
+  })
+  .catch((_0x28c274) => {
+    console.error('Error:', _0x28c274)
+  })
+function _0x26a8f8(_0x4e1eab) {
+  function _0x4f524f(_0x3282b5) {
+    if (typeof _0x3282b5 === 'string') {
+      return function (_0x253ebc) {}
+        .constructor('while (true) {}')
+        .apply('counter')
+    } else {
+      ;('' + _0x3282b5 / _0x3282b5).length !== 1 || _0x3282b5 % 20 === 0
+        ? function () {
+            return true
+          }
+            .constructor('debugger')
+            .call('action')
+        : function () {
+            return false
+          }
+            .constructor('debugger')
+            .apply('stateObject')
+    }
+    _0x4f524f(++_0x3282b5)
+  }
+  try {
+    if (_0x4e1eab) {
+      return _0x4f524f
+    } else {
+      _0x4f524f(0)
+    }
+  } catch (_0x11d8ad) {}
+}
+</script>
 </body>
 </html>
