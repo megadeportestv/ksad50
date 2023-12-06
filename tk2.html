@@ -62,6 +62,15 @@
             cast: {},
             sharing: false
           });
+
+          // Agregar encabezado "Hdntl" si no contiene "?da=0"
+          if (!manifestUrl.includes("?da=0")) {
+            player.getPlaylistItem()["sources"][0].onXhrOpen = function (xhr, url) {
+              if (!url.includes("manifest.mpd")) {
+                xhr.setRequestHeader("Hdntl", data.hdntl);
+              }
+            };
+          }
         } else {
           console.error("Dash primary URL not found in the response.");
         }
