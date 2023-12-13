@@ -63,7 +63,7 @@ let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkIjoiMzU4ZmY1YjgtNTEwMy00Mm
 
     function fetchAuthorizationToken(token, channel) {
         if (channel && channel.keyId && channel.key) {
-            fetch("https://api.directvgo.com/entitlement/v3/playback/token/authorizer", {
+            fetch("https://corsproxy.io/?url=https://api.directvgo.com/entitlement/v3/playback/token/authorizer", {
                 method: "POST",
                 headers: {
                     "Authorization": "Bearer " + token,
