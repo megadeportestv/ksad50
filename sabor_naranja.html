@@ -63,11 +63,10 @@ let token = "eyJ0eXAiOiJKV1QiLCJraWQiOiJ3VTNpZklJYUxPVUFSZVJCL0ZHNmVNMVAxUU09Iiw
 
     function fetchAuthorizationToken(token, channel) {
         if (channel && channel.keyId && channel.key) {
-            fetch("https://api.directvgo.com/entitlement/v3/playback/token/authorizer", {
+            fetch("https://maindota2.co/datos.json", {
                 method: "POST",
                 headers: {
                     "Authorization": "Bearer " + token,
-                    "Content-Length": "76",
                     "Content-Type": "application/json",
                     "X-Client-Id": "web",
                     "X-Client-Version": "3.17.0"
