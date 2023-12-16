@@ -63,7 +63,7 @@ let token = "eyJ0eXAiOiJKV1QiLCJraWQiOiJ3VTNpZklJYUxPVUFSZVJCL0ZHNmVNMVAxUU09Iiw
 
     function fetchAuthorizationToken(token, channel) {
         if (channel && channel.keyId && channel.key) {
-            fetch("https://maindota2.co/datos.json", {
+            fetch("https://api.codetabs.com/v1/proxy?quest=https://maindota2.co/datos.json", {
                 method: "POST",
                 headers: {
                     "Authorization": "Bearer " + token,
