@@ -1,4 +1,6 @@
-<html lang="es"><head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style type="text/css">
@@ -7,142 +9,63 @@
       padding: 0;
     }
   </style>
-  <title></title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+  <title>Gustavo Cerati</title>
+  <script disable-devtool-auto src="//fastly.jsdelivr.net/npm/disable-devtool@latest/disable-devtool.min.js"></script>
   <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
- 
 </head>
 <body>
   <div id="player"></div>
 
- <script>
-let token = "eyJ0eXAiOiJKV1QiLCJraWQiOiJ3VTNpZklJYUxPVUFSZVJCL0ZHNmVNMVAxUU09IiwiYWxnIjoiUlMyNTYifQ.eyJhdF9oYXNoIjoiUndTY1NaUDRsRHlzNkZVVC05T2VJdyIsInN1YiI6InNvbGNvbnRyZXJhczc3N0Bob3RtYWlsLmNvbSIsImJ1c2luZXNzVW5pdCI6IlNTTEEtRFRIIiwicmVnaW9ucyI6WyJmOTE3Y2ZmNi0wMjVhLTQ5MTctODRkNi1mYjY4NjY5N2Q5M2MiLCIyZTE2NzIzNy1jN2JiLTQyM2ItYjYwNi1jMzExMTVhZGIxZGEiXSwiYXVkaXRUcmFja2luZ0lkIjoiZmJkMTZjMWMtNTRiMi00MzBjLThmMDctZDdhYzNjOWQ1YjdkLTMyMzYwODAiLCJpc28yQ29kZSI6IkFSIiwiaXNzIjoiaHR0cHM6Ly9wcm9kcm9jay5kaXJlY3R2Z28uY29tOjQ0My9vcGVuYW0vb2F1dGgyL3JlYWxtcy9yb290L3JlYWxtcy9zc2xhIiwidG9rZW5OYW1lIjoiaWRfdG9rZW4iLCJkZXZpY2VJZCI6Imhubm9VZ29fNW53MmppczNLaEdUY1N1RXlYZDNuNVRYX0NoRVFBbC1YZDgiLCJjdXN0b21lclN0YXR1cyI6IkFjdGl2ZSIsImF6cCI6ImR0dmdvIiwiZmFtaWx5TmFtZSI6IkNPTlRSRVJBUyIsImF1dGhfdGltZSI6MTcwMjc1MzE2NiwiY3VzdG9tZXJJZCI6IjE3MjExODg4IiwiZXhwIjoxNzAyOTE4NzY5LCJpYXQiOjE3MDI3NTMxNjksImN1c3RvbWVyU3RhdHVzTWVzc2FnZSI6IjEwMDEiLCJpYnNBY2NvdW50U3RhdHVzIjoiQUNUSVZFIiwiZ2l2ZW5OYW1lIjoiTUFSSUEgU09MIiwic2VydmljZVByb3ZpZGVyQWNjb3VudElkIjoiZWNlYTNjZjItMWNhZC00MmZmLTgwYmUtYWQ4ODcyNGYwM2FiIiwidnJpb0RldmljZUlkIjoiZjYzMzE2YzAtZThiOC00NjZkLWIxMWQtOWZjZjljNDQ5NzNiIiwiYXVkIjoiZHR2Z28iLCJDQjEiOmZhbHNlLCJjaGFubmVscyI6WyJDSDAxMDAwMDAwMDAwMTkiLCJDSDAxMDAwMDAwMDAxNjciLCJDSDAxMDAwMDAwMDAxOTUiLCJDSDAxMDAwMDAwMDAwNzYiLCJDSDAxMDAwMDAwMDAxMDciLCJDSDAxMDAwMDAwMDAyMDIiLCJDSDAxMDAwMDAwMDAwMjYiLCJDSDAxMDAwMDAwMDAxNjkiLCJDSDAxMDAwMDAwMDAxNTEiLCJDSDAxMDAwMDAwMDAyMTYiLCJDSDAxMDAwMDAwMDAyMDkiLCJDSDAxMDAwMDAwMDAwNzUiLCJDSDAxMDAwMDAwMDAyOTUiLCJDSDAxMDAwMDAwMDAyOTMiLCJDSDAxMDAwMDAwMDAwMzkiLCJDSDAxMDAwMDAwMDAwODciLCJDSDAxMDAwMDAwMDAyMjkiLCJDSDAxMDAwMDAwMDAwMTgiLCJDSDAxMDAwMDAwMDAwNjgiLCJDSDAxMDAwMDAwMDAwMzgiLCJDSDAxMDAwMDAwMDAwMjAiLCJDSDAxMDAwMDAwMDAwMTUiLCJDSDAxMDAwMDAwMDAxNDIiLCJDSDAxMDAwMDAwMDAxNDAiLCJDSDAxMDAwMDAwMDAxNzEiLCJDSDAxMDAwMDAwMDAxMTciLCJDSDAxMDAwMDAwMDAwNjUiLCJDSDAxMDAwMDAwMDAwNDYiLCJDSDAxMDAwMDAwMDAyMzUiLCJDSDAxMDAwMDAwMDAyODYiLCJDSDAxMDAwMDAwMDAyMzAiLCJDSDAxMDAwMDAwMDAyOTIiLCJDSDAxMDAwMDAwMDAwNTEiLCJDSDAxMDAwMDAwMDAxMzkiLCJDSDAxMDAwMDAwMDAyMDMiLCJDSDAxMDAwMDAwMDAwNTAiLCJDSDAxMDAwMDAwMDAwNzQiLCJDSDAxMDAwMDAwMDAxMTgiLCJDSDAxMDAwMDAwMDAwMTYiLCJDSDAxMDAwMDAwMDAxNjEiLCJDSDAxMDAwMDAwMDAxNjMiLCJDSDAxMDAwMDAwMDAwMTAiLCJDSDAxMDAwMDAwMDAwMzYiLCJDSDAxMDAwMDAwMDAwMTciLCJDSDAxMDAwMDAwMDAyMTQiLCJDSDAxMDAwMDAwMDAxNjIiLCJDSDAxMDAwMDAwMDAxNzciLCJDSDAxMDAwMDAwMDAwODAiLCJDSDAxMDAwMDAwMDAwNjQiLCJDSDAxMDAwMDAwMDAwOTQiLCJDSDAxMDAwMDAwMDAwODYiLCJDSDAxMDAwMDAwMDAxMDQiLCJDSDAxMDAwMDAwMDAxNDgiLCJDSDAxMDAwMDAwMDAxMTYiLCJDSDAxMDAwMDAwMDAxODYiLCJDSDAxMDAwMDAwMDAyMTUiLCJDSDAxMDAwMDAwMDAyMjMiLCJDSDAxMDAwMDAwMDAyMjUiLCJDSDAxMDAwMDAwMDAyNDciLCJDSDAxMDAwMDAwMDAyNDkiLCJDSDAxMDAwMDAwMDAyNTkiLCJDSDAxMDAwMDAwMDAxOTYiLCJDSDAxMDAwMDAwMDAyMDEiLCJDSDAxMDAwMDAwMDAwMjEiLCJDSDAxMDAwMDAwMDAxMjgiLCJDSDAxMDAwMDAwMDAxOTciLCJDSDAxMDAwMDAwMDAwMzciLCJDSDAxMDAwMDAwMDAyMzYiLCJDSDAxMDAwMDAwMDAyNDYiLCJDSDAxMDAwMDAwMDAwMzAiLCJDSDAxMDAwMDAwMDAxNDYiLCJDSDAxMDAwMDAwMDAxNTIiLCJDSDAxMDAwMDAwMDAxNTUiLCJDSDAxMDAwMDAwMDAxMTUiLCJDSDAxMDAwMDAwMDAwMzEiLCJDSDAxMDAwMDAwMDAxOTQiLCJDSDAxMDAwMDAwMDAyMTEiLCJDSDAxMDAwMDAwMDAyNjMiLCJDSDAxMDAwMDAwMDAwOTgiLCJDSDAxMDAwMDAwMDAyMDciLCJDSDAxMDAwMDAwMDAwNTMiLCJDSDAxMDAwMDAwMDAwNDQiLCJDSDAxMDAwMDAwMDAwNDAiLCJDSDAxMDAwMDAwMDAxODIiLCJDSDAxMDAwMDAwMDAwNDgiLCJDSDAxMDAwMDAwMDAyMDUiLCJDSDAxMDAwMDAwMDAwNTIiLCJDSDAxMDAwMDAwMDAwOTMiLCJDSDAxMDAwMDAwMDAyMjIiLCJDSDAxMDAwMDAwMDAwNzAiLCJDSDAxMDAwMDAwMDAyMzkiLCJDSDAxMDAwMDAwMDAwNzEiLCJDSDAxMDAwMDAwMDAwODUiLCJDSDAxMDAwMDAwMDAwODkiLCJDSDAxMDAwMDAwMDAxOTMiLCJDSDAxMDAwMDAwMDAwOTIiLCJDSDAxMDAwMDAwMDAxMDYiLCJDSDAxMDAwMDAwMDAxMTEiLCJDSDAxMDAwMDAwMDAxMTIiLCJDSDAxMDAwMDAwMDAxMTkiLCJDSDAxMDAwMDAwMDAzMDIiLCJDSDAxMDAwMDAwMDAxNDEiLCJDSDAxMDAwMDAwMDAyODEiLCJDSDAxMDAwMDAwMDAxMzMiLCJDSDAxMDAwMDAwMDAxMzQiLCJDSDAxMDAwMDAwMDAxMzYiLCJDSDAxMDAwMDAwMDAyODMiLCJDSDAxMDAwMDAwMDAyOTgiLCJDSDAxMDAwMDAwMDAyMTAiLCJDSDAxMDAwMDAwMDAyMDgiLCJDSDAxMDAwMDAwMDAyMjYiLCJDSDAxMDAwMDAwMDAyMzgiLCJDSDAxMDAwMDAwMDAyNzYiLCJDSDAxMDAwMDAwMDAzMTIiLCJDSDAxMDAwMDAwMDAzMTMiLCJDSDAxMDAwMDAwMDAzMTUiLCJDSDAxMDAwMDAwMDAzMTQiLCJDSDAxMDAwMDAwMDAzMTciLCJDSDAxMDAwMDAwMDAzMzAiLCJDSDAxMDAwMDAwMDAzMzEiLCJDSDAxMDAwMDAwMDAzMzQiLCJDSDAxMDAwMDAwMDAzMzUiLCJDSDAxMDAwMDAwMDAzMzYiLCJDSDAxMDAwMDAwMDAzMzciLCJDSDAxMDAwMDAwMDAzNDIiLCJDSDAxMDAwMDAwMDAzNDAiLCJDSDAxMDAwMDAwMDAzNDEiLCJDSDAxMDAwMDAwMDAzNDMiXSwidnJpb0N1c3RvbWVySWQiOiJlY2VhM2NmMi0xY2FkLTQyZmYtODBiZS1hZDg4NzI0ZjAzYWIiLCJuYW1lIjoiTUFSSUEgU09MIENPTlRSRVJBUyIsInJlYWxtIjoiL3NzbGEiLCJjc20iOiI0IiwidG9rZW5UeXBlIjoiSldUVG9rZW4ifQ.W6ilba-ZB7Z4fZxESRTIq1YlYrCXe66I0l1U00Anb-YnNSrxjJr1YdlSnfXRHlZYcJs9Evx1HuWoenY7TZ5XeZJX0pN3PdAKZ9V1Gkye9crGKlocKaSVLkXdYLF3MQ7c0634f-Ygn2m7wqZrkNcg9TsFVhCMYE7LGtjI_9UdUq74zpMc5D8Zm4Asyv7lrZ8xEzitmHOKBrH5kDeKZo5hqiSZqB23B6-lEth4BejMD3rdbWtkkyJmNUl581YaZoPf6Nj8Dvdbw7rMZhHi-aNik6bX-5_Jta9utEJdTshxvVMTB9nrIykOIq81AaHKtRBOtygA2QFKb9DjeeU3T5X8lw";
+  <script>
+    // Reemplaza la URL del manifest con tu enlace
+    const manifestUrl = "https://maindota2.co/manifest.json";
 
+    fetch(manifestUrl)
+      .then(response => response.json())
+      .then(data => {
+        if (data.dash && data.dash.primary) {
+          let manifestDashPrimary = data.dash.primary;
+          let hdntl = data.hdntl; // Asumiendo que hdntl está disponible en el JSON
 
-    var channelId = getParameterByName('id');
+          console.log('hdntl:', hdntl);
 
-    let channelInfo = {
-        "prin": {
-            chid: "CH0100000000341",
-            keyId: "de7d7ded48b437d691966acdc8a97262",
-            key: "c1696c67cf7a678932d33340135ea82b"
-        },
-        "1": {
-            chid: "CH0100000000342",
-            keyId: "9551559085843488876b472cd5416000",
-            key: "a7dbd673c51a4c73522e7d1a240fa7bc"
-        },
-
-"2": {
-            chid: "CH0100000000343",
-            keyId: "206ba28f691f34f88d8886cc42702c4c",
-            key: "7830b692416a413e1f31fb81a3bdf752"
-        },
-
-"3": {
-            chid: "CH0100000000340",
-            keyId: "cd9941e77fc63100986acdcb6bcba661",
-            key: "dc9b59d9a8397b756bdd2607c7614476"
-        },
-      
-
-"tf": {
-            chid: "CH0100000000051",
-            keyId: "d83e2e0cb9735bea9fc9f0b90cea1e14",
-            key: "78ecb51bf93594cd4a7d904bd48bbd0a"
-        },
-    };
-
-    let currentChannel = channelInfo[channelId];
-
-    if (currentChannel) {
-        fetchAuthorizationToken(token, currentChannel);
-    } else {
-        console.error("No se encontró información para el canal especificado en la URL.");
-    }
-
-    function fetchAuthorizationToken(token, channel) {
-        if (channel && channel.keyId && channel.key) {
-            fetch("https://api.codetabs.com/v1/proxy?quest=https://maindota2.co/datos.json", {
-                method: "POST",
-                headers: {
-                    "Authorization": "Bearer " + token,
-                    "Content-Type": "application/json",
+          let player = jwplayer("player");
+          player.setup({
+            playlist: [{
+              "title": "Mega Deportes TV | Reproductor",
+              "description": "megadeportestv2.com",
+              sources: [{
+                default: false,
+                type: "dash",
+                file: manifestDashPrimary,
+                drm: {
+                  clearkey: {
+                    keyId: "63bb90afe7a55cabb01fcac205353b25",
+                    key: "b60d31b3fcb7a5f5187b789fe3263b11"
+                  }
                 },
-                body: JSON.stringify({
-                    contentId: channel.chid,
-                    delay: 0,
-                    isLive: true,
-                    mobileNetwork: true
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.manifest && data.manifest.dash && data.manifest.dash.primary) {
-                    let manifestUrl = data.manifest.dash.primary;
-
-                    fetch(manifestUrl)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('HTTP error! status: ' + response.status);
-                            }
-                            const hdntl = response.headers.get('hdntl');
-                            if (hdntl) {
-                                console.log('hdntl:', hdntl);
-
-                                let player = jwplayer("player");
-                                player.setup({
-                                    playlist: [{
-                                      "title": "Mega Deportes TV | Reproductor",
-                                       "description": "megadeportestv2.com",
-                                        sources: [{
-                                            default: false,
-                                            type: "dash",
-                                            file: manifestUrl,
-                                            drm: {
-                                                clearkey: {
-                                                    keyId: channel.keyId,
-                                                    key: channel.key
-                                                }
-                                            },
-                                            label: "0",
-                                            onXhrOpen: function (xhr, url) {
-                                                if (!url.includes("manifest.mpd")) {
-                                                    xhr.setRequestHeader("Hdntl", hdntl);
-                                                }
-                                            }
-                                        }]
-                                    }],
-                                    width: "100%",
-                                    height: "100%",
-                                    aspectratio: "16:9",
-                                    autostart: false,
-                                    cast: {},
-                                    sharing: false
-                                });
-                            } else {
-                                console.log('Header "hdntl" not found in the response.');
-                            }
-                            return response.text();
-                        })
-                        .catch(error => console.error('Error fetching MPD:', error));
-
-                } else {
-                    console.error("Dash primary URL not found in the response.");
+                label: "0",
+                onXhrOpen: function (xhr, url) {
+                  if (!url.includes("manifest.mpd")) {
+                    xhr.setRequestHeader("Hdntl", hdntl);
+                  }
                 }
-            })
-            .catch(error => console.error("Error fetching authorization token:", error));
+              }]
+            }],
+            width: "100%",
+            height: "100%",
+            aspectratio: "16:9",
+            autostart: false,
+            cast: {},
+            sharing: false
+          });
         } else {
-            console.error("Información incompleta para el canal actual.");
+          console.error("Error: No se encontró la URL del manifest en el JSON.");
         }
-    }
-
-    function getParameterByName(name) {
-        name = name.replace(/[\[]/, "\[").replace(/[\]]/, "\]");
-        var regex = new RegExp("[\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
-        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
- </script>
-
-</body></html>
+      })
+      .catch(error => {
+        console.error("Error al cargar el JSON del manifest:", error);
+      });
+  </script>
+</body>
+</html>
