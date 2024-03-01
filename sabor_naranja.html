@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css">
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <title>Gustavo Cerati</title>
+ 
+  <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
+</head>
+<body>
+  <div id="player"></div>
+
+  <script>
+    // Reemplaza la URL del manifest con tu enlace
+    const manifestUrl = "https://api.codetabs.com/v1/proxy?quest=https://directvgo.deportesmegatv8.repl.co/api.json";
+
+    fetch(manifestUrl)
+      .then(response => response.json())
+      .then(data => {
+        if (data.dash && data.dash.primary) {
+          let manifestDashPrimary = data.dash.primary;
+          let hdntl = data.hdntl; // Asumiendo que hdntl está disponible en el JSON
+
+          console.log('hdntl:', hdntl);
+
+          let player = jwplayer("player");
+          player.setup({
+            playlist: [{
+              "title": "Mega Deportes TV | Reproductor",
+              "description": "megadeportestv2.com",
+              sources: [{
+                default: false,
+                type: "dash",
+                file: manifestDashPrimary,
+                drm: {
+                  clearkey: {
+                    keyId: "63bb90afe7a55cabb01fcac205353b25",
+                    key: "b60d31b3fcb7a5f5187b789fe3263b11"
+                  }
+                },
+                label: "0",
+                onXhrOpen: function (xhr, url) {
+                  if (!url.includes("manifest.mpd")) {
+                    xhr.setRequestHeader("Hdntl", hdntl);
+                  }
+                }
+              }]
+            }],
+            width: "100%",
+            height: "100%",
+            aspectratio: "16:9",
+            autostart: false,
+            cast: {},
+            sharing: false
+          });
+        } else {
+          console.error("Error: No se encontró la URL del manifest en el JSON.");
+        }
+      })
+      .catch(error => {
+        console.error("Error al cargar el JSON del manifest:", error);
+      });
+  </script>
+</body>
+</html>
